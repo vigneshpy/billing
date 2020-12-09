@@ -19,36 +19,40 @@ const CustomerScreen = (props) => {
     const fields = {
       customerName: {
         label: 'Customer Name',
+        type:'text',
         validators: [validateContent, validateLength],
-  
       },
       customerNo: {
         label: 'Mobile No',
-        validators: [validateContent, validateMobile],
+        type:'text',
+        validators: [validateMobile],
         inputProps: {
-          keyboardType:'phone-pad',
+          keyboardType: 'phone-pad',
           maxLength: 10,
-          returnKeyType:'next'
+          returnKeyType: 'next',
         },
       },
       imei1: {
         label: 'IMEI No',
+        type:'text',
         inputProps: {
-          keyboardType:'phone-pad',
+          keyboardType: 'phone-pad',
           maxLength: 16,
         },
-        validators: [validateContent, validateImei],
+        validators: [validateImei],
       },
     };
     return (
       <View style={{flex: 1}}>
         <View style={styles.header}>
-        <Text style={styles.headerText}>
-           Customer
-        </Text>
+          <Text style={styles.headerText}>Customer</Text>
         </View>
-        <Forms fields={fields} buttonText="Save"  buttonStyle={{width:200}} 
-        action={customerSave}/>
+        <Forms
+          fields={fields}
+          buttonText="Save"
+          buttonStyle={{width: 200}}
+          action={customerSave}
+        />
       </View>
     );
   };
@@ -56,16 +60,15 @@ const CustomerScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-header:{
-margin:10
-},
-headerText:{
-  textAlign: 'center', 
-  justifyContent: 'center',
-  fontSize:18
-}
-
-
+  header: {
+    marginTop: 15,
+  },
+  headerText: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
 });
 
 export default CustomerScreen;

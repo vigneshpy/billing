@@ -19,13 +19,14 @@ const CustomerScreen = (props) => {
     const fields = {
       serviceName: {
         label: 'Service Name',
+        type:'text',
         validators: [validateContent, validateLength],
   
       },
       customerName: {
-        type:'dropdown',
+        type:'autocomplete',
         label: 'Customer Name',
-        validators: [validateContent, validateMobile],
+        validators: [],
         inputProps: {
           keyboardType:'phone-pad',
           maxLength: 10,
@@ -39,10 +40,11 @@ const CustomerScreen = (props) => {
           keyboardType:'phone-pad',
           maxLength: 16,
         },
-        validators: [validateContent, validateImei],
+        validators: [validateContent],
       },
       serviceCharge: {
         label: 'Serviced Charge',
+        
         inputProps: {
           keyboardType:'phone-pad',
           maxLength: 16,

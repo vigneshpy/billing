@@ -14,7 +14,7 @@ import {hasValidationError, validateFields} from './Validation';
 
 const AppColors = AppStyles.color;
 const AppFonts = AppStyles.fonts;
-const Form = ({fields, action, buttonText, buttonStyle, elementColor,}) => {
+const Form = ({fields, action, buttonText, buttonStyle, elementColor}) => {
   const btnColor = elementColor ? elementColor : AppColors.COLOR_PRIMARY;
   const fieldKeys = Object.keys(fields);
   const getInitialState = (fieldKeys) => {
@@ -75,7 +75,6 @@ const Form = ({fields, action, buttonText, buttonStyle, elementColor,}) => {
                 onChangeText={onChangeValue}
                 value={values[key]}
                 color={btnColor}
-                
               />
             );
           })}
