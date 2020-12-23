@@ -11,30 +11,45 @@ import {TextInput, Button} from 'react-native-paper';
 import Field from './Field';
 import AppStyles from '../config/styles';
 import {hasValidationError, validateFields} from './Validation';
-
+import moment from 'moment';
 const AppColors = AppStyles.color;
 const AppFonts = AppStyles.fonts;
+
+
+
+export const formatDate=(date:any,format:string)=>{
+    return moment(date).format(format);
+  }
+
 const Form = ({fields, action, buttonText, buttonStyle, elementColor}) => {
   const btnColor = elementColor ? elementColor : AppColors.COLOR_PRIMARY;
   const fieldKeys = Object.keys(fields);
-  const getInitialState = (fieldKeys) => {
+  
+  const getInitialState = (fieldKeys,defaultFlag=false) => {
     const state = {};
+    
     fieldKeys.forEach((key) => {
-      state[key] = '';
+       if(fields[key].type=="date" && defaultFlag)
+          state[key] = formatDate(new Date(),'DD-MM-YYYY');
+          // console.log('work')
+        else        
+             state[key] = '';
     });
     return state;
   };
-  const [values, setValues] = useState(getInitialState(fieldKeys));
+  const [values, setValues] = useState(getInitialState(fieldKeys,true));
   const [errorMessage, setErrorMessage] = useState('');
   const [validationErrors, setValidationErrors] = useState(
     getInitialState(fieldKeys),
   );
   const onChangeValue = (key, value) => {
     const newState = {...values, [key]: value};
+    console.log(newState);
     setValues(newState);
 
     if (validationErrors[key]) {
       const newErrors = {...validationErrors, [key]: ''};
+
       setValidationErrors(newErrors);
     }
   };
@@ -44,7 +59,7 @@ const Form = ({fields, action, buttonText, buttonStyle, elementColor}) => {
 
   const submit = async () => {
     setErrorMessage('');
-    setValidationErrors(getInitialState(fieldKeys));
+    setValidationErrors(getInitialState(fieldKeys,true));
 
     const errors = validateFields(fields, values);
 

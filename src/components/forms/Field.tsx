@@ -4,7 +4,7 @@ import {HelperText, TextInput} from 'react-native-paper';
 import DatePicker from './DateField';
 const Field = ({fieldName, field, value, onChangeText, error, key, color}) => {
   const fieldType = field.type;
-  console.log('props');
+
   const renderField = (type: string) => {
     if (type == 'text' || type == '' || type == undefined) {
       return (
@@ -17,16 +17,19 @@ const Field = ({fieldName, field, value, onChangeText, error, key, color}) => {
           theme={{colors: {primary: color, underlineColor: 'transparent'}}}
           {...field.inputProps}
         />
-      )
-    }
-    else if(type=="date"){
-      return  (
-        <DatePicker style={styles.input}  label={field.label}  value={value} onChangeText={(text) => onChangeText(fieldName, text)} 
-        mode="outlined"
-        theme={{colors: {primary: color, underlineColor: 'transparent'}}}
-        {...field.inputProps}
+      );
+    } else if (type == 'date') {
+      return (
+        <DatePicker
+          style={styles.input}
+          label={field.label}
+          value={value}
+          onDateChange={(text) => onChangeText(fieldName, text)}
+          mode="outlined"
+          theme={{colors: {primary: color, underlineColor: 'transparent'}}}
+          {...field.inputProps}
         />
-      )
+      );
     }
   };
 

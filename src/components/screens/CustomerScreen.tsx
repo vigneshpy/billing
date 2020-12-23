@@ -52,6 +52,7 @@ const CustomerScreen = (props) => {
           buttonText="Save"
           buttonStyle={{width: 200}}
           action={customerSave}
+          elementColor=''
         />
       </View>
     );

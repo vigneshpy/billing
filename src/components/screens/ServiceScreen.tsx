@@ -19,48 +19,45 @@ const CustomerScreen = (props) => {
     const fields = {
       serviceName: {
         label: 'Service Name',
-        type:'text',
+        type: 'text',
         validators: [validateContent, validateLength],
-  
       },
       customerName: {
-        type:'autocomplete',
+        type: 'autocomplete',
         label: 'Customer Name',
         validators: [],
         inputProps: {
-          keyboardType:'phone-pad',
+          keyboardType: 'phone-pad',
           maxLength: 10,
-          returnKeyType:'next'
+          returnKeyType: 'next',
         },
       },
       serviceDate: {
-        type:'date',
+        type: 'date',
         label: 'Serviced Date',
-        inputProps: {
-          keyboardType:'phone-pad',
-          maxLength: 16,
-        },
         validators: [validateContent],
       },
       serviceCharge: {
         label: 'Serviced Charge',
-        
+
         inputProps: {
-          keyboardType:'phone-pad',
-          maxLength: 16,
+          keyboardType: 'phone-pad',
+          maxLength: 10,
         },
-        validators: [validateContent, validateImei],
+        validators: [validateContent],
       },
     };
     return (
       <View style={{flex: 1}}>
         <View style={styles.header}>
-        <Text style={styles.headerText}>
-           Service
-        </Text>
+          <Text style={styles.headerText}>Service</Text>
         </View>
-        <Forms fields={fields} buttonText="Save"  buttonStyle={{width:200}} 
-        action={customerSave}/>
+        <Forms
+          fields={fields}
+          buttonText="Save"
+          buttonStyle={{width: 200}}
+          action={customerSave}
+        />
       </View>
     );
   };
@@ -68,16 +65,14 @@ const CustomerScreen = (props) => {
 };
 
 const styles = StyleSheet.create({
-header:{
-margin:10
-},
-headerText:{
-  textAlign: 'center', 
-  justifyContent: 'center',
-  fontSize:18
-}
-
-
+  header: {
+    margin: 10,
+  },
+  headerText: {
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontSize: 18,
+  },
 });
 
 export default CustomerScreen;

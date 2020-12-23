@@ -3,28 +3,36 @@ import {View, Button, Platform,Pressable} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {TextInput} from 'react-native-paper';
 
+import moment from 'moment';
+
+
+export const formatDate=(date:any,format:string)=>{
+    return moment(date).format(format);
+  }
+
 const DatePicker = (props) => {
-  
-  const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState('date');
+  const today = new Date();
+  const [date, setDate] = useState(new Date(today));
+
   const [show, setShow] = useState(false);
-  console.log(date);
+
+
   const onChange = (event, selectedDate) => {
+    setShow(false);
     const currentDate = selectedDate || date;
-    setShow(Platform.OS === 'ios');
+    console.warn(currentDate);
+    props.onDateChange(formatDate(date,'DD-MM-YYYY'));
     setDate(currentDate);
+    
   };
-
-
   return (
     <View>
   <Pressable onPress={() => setShow(true)}>
   <View pointerEvents="none">
       <TextInput
         label={props.label}
-        value={date}
+        value={formatDate(date,'MMM-DD-yyyy')}
         style={props.style}
-        onChangeText={(text) => props.onChangeText(props.fieldName, text)}
         mode="outlined"
         theme={props.theme}
         {...props.inputProps}
@@ -32,13 +40,13 @@ const DatePicker = (props) => {
       </View>
 </Pressable>
       {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={mode}
-          display="default"
-          onChange={onChange}
-        />
+       <DateTimePicker
+    
+       value={date}
+       mode="date"
+       display="default"
+       onChange={onChange}
+   />
       )}
     </View>
   );
