@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {Text, View, StyleSheet} from 'react-native';
 import {HelperText, TextInput} from 'react-native-paper';
 import DatePicker from './DateField';
+import AutoComplete from './AutoCompleteField';
 const Field = ({fieldName, field, value, onChangeText, error, key, color}) => {
   const fieldType = field.type;
 
@@ -30,6 +31,21 @@ const Field = ({fieldName, field, value, onChangeText, error, key, color}) => {
           {...field.inputProps}
         />
       );
+    }
+    else if (type== 'autocomplete'){
+      return (
+        <AutoComplete  
+        style={styles.input} 
+        label={field.label}
+        value={value} 
+        mode="outlined"  
+       color={color}
+        customProps={field.inputProps}
+        onChangeText={(text) => onChangeText(fieldName, text)}
+
+        />
+      );
+
     }
   };
 

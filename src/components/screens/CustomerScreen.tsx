@@ -6,10 +6,11 @@ import {
   validateLength,
   validateMobile,
 } from '../forms/Validation';
-import React, {useState} from 'react';
+import React, {useState,FunctionComponent } from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import {TextInput} from 'react-native-paper';
+
 
 const CustomerScreen = (props) => {
   const customerSave = () => {

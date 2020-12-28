@@ -36,7 +36,7 @@ export const validateContent = (text) => {
   export const validateFields = (fields, values) => {
     const errors = {};
     const fieldKeys = Object.keys(fields);
-    
+  
     fieldKeys.forEach((key) => {
       const field = fields[key];
       const validators = field.validators;

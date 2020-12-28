@@ -14,14 +14,11 @@ import {hasValidationError, validateFields} from './Validation';
 import moment from 'moment';
 const AppColors = AppStyles.color;
 const AppFonts = AppStyles.fonts;
+import {formatDate} from '../config/Format';
 
 
 
-export const formatDate=(date:any,format:string)=>{
-    return moment(date).format(format);
-  }
-
-const Form = ({fields, action, buttonText, buttonStyle, elementColor}) => {
+const Form = ({fields, action, buttonText, buttonStyle, elementColor,mode}) => {
   const btnColor = elementColor ? elementColor : AppColors.COLOR_PRIMARY;
   const fieldKeys = Object.keys(fields);
   
@@ -64,20 +61,21 @@ const Form = ({fields, action, buttonText, buttonStyle, elementColor}) => {
     const errors = validateFields(fields, values);
 
     if (hasValidationError(errors)) {
-      console.log(errors);
+      
       return setValidationErrors(errors);
     }
     try {
       const result = await action(...getValues());
+      console.log(result);
     } catch (e) {
       setErrorMessage(e.message);
     }
 
-    const result = await action(...getValues());
+    
   };
   return (
     <SafeAreaView>
-      <ScrollView>
+      <ScrollView keyboardShouldPersistTaps='always' nestedScrollEnabled={true}>
         <View style={styles.container}>
           <Text style={styles.error}>{errorMessage}</Text>
           {fieldKeys.map((key) => {
@@ -94,7 +92,7 @@ const Form = ({fields, action, buttonText, buttonStyle, elementColor}) => {
             );
           })}
           <Button
-            mode="contained"
+            mode={mode?mode:"contained"}
             onPress={submit}
             style={buttonStyle}
             color={btnColor}>

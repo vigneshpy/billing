@@ -15,23 +15,28 @@ const CustomerScreen = (props) => {
   const customerSave = () => {
     alert('save');
   };
+  const getData=()=>{
+    alert('customername')
+
+  }
   const service = () => {
     const fields = {
+
+      customerName: {
+        type: 'autocomplete',
+        label: 'Customer Name',
+        data:{getData},
+        validators: [validateContent],
+        inputProps: {
+          returnKeyType: 'next',
+        },
+      },
       serviceName: {
         label: 'Service Name',
         type: 'text',
         validators: [validateContent, validateLength],
       },
-      customerName: {
-        type: 'autocomplete',
-        label: 'Customer Name',
-        validators: [],
-        inputProps: {
-          keyboardType: 'phone-pad',
-          maxLength: 10,
-          returnKeyType: 'next',
-        },
-      },
+     
       serviceDate: {
         type: 'date',
         label: 'Serviced Date',
@@ -39,7 +44,6 @@ const CustomerScreen = (props) => {
       },
       serviceCharge: {
         label: 'Serviced Charge',
-
         inputProps: {
           keyboardType: 'phone-pad',
           maxLength: 10,
