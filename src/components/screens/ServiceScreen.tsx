@@ -56,7 +56,7 @@ const CustomerScreen = (props) => {
         <View style={styles.header}>
           <Text style={styles.headerText}>Service</Text>
         </View>
-        <Forms
+         <Forms
           fields={fields}
           buttonText="Save"
           buttonStyle={{width: 200}}

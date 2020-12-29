@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {useState} from 'react';
-import {View, ScrollView, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 
 const items = [
@@ -26,36 +26,51 @@ const items = [
     name: 'Ond1o',
   },
 ];
-const change = (text) => {
-  alert(text);
-};
+
 const MultiSelectExample = (props) => {
-  const [value, SetValue] = useState('');
+  const [value, setValue] = useState([]);
+
+  const onChange = (text, e) => {
+    alert(text);
+    setValue(text);
+    props.onChangeText(text);
+  };
+
+  const onfocus = () => {};
+  const defaultProps = {onFocus: onfocus};
   return (
     <View>
       <MultiSelect
         hideTags
+        single={true}
         items={items}
         uniqueKey="id"
-        onSelectedItemsChange={change}
+        onSelectedItemsChange={onChange}
+        selectedItems={value}
         selectText={props.label}
-        searchInputPlaceholderText={props.label}
+        searchInputPlaceholderText="Search Items..."
         onChangeInput={(text) => console.log(text)}
+        tagRemoveIconColor="#CCC"
+        tagBorderColor="#CCC"
+        tagTextColor="#CCC"
+        selectedItemTextColor="#CCC"
+        selectedItemIconColor="#CCC"
         itemTextColor="#000"
-        fixedHeight={true}
+        displayKey="name"
         hideSubmitButton={true}
-        single={true}
+        fixedHeight={true}
         styleDropdownMenu={styles.autoComplete}
         styleDropdownMenuSubsection={styles.styleDropdownMenuSubsection}
         styleInputGroup={styles.inputGroup}
-        searchInputStyle={styles.autoComplete}
         searchIcon={false}
         styleItemsContainer={styles.dropDown}
         styleSelectorContainer={styles.styleSelectorContainer}
         styleRowList={styles.styleRowList}
-        styleTextDropdown={styles.styleTextDropdown}
+        styleTextDropdown={styles.styleTextDropdownSelected}
+        styleTextDropdownSelected={styles.styleTextDropdownSelected}
         styleListContainer={styles.styleListContainer}
         styleMainWrapper={styles.styleMainWrapper}
+        textInputProps={defaultProps}
       />
     </View>
   );
@@ -64,10 +79,17 @@ const MultiSelectExample = (props) => {
 const styles = StyleSheet.create({
   autoComplete: {
     width: 300,
+    borderColor: 'gray',
+    borderWidth: 1,
+    height: 'auto',
+    borderRadius: 4,
   },
+  styleItemsContainer: {},
+  styleMainWrapper: {},
   inputGroup: {
     width: 300,
-    elevation: 3,
+
+    borderWidth: 1,
   },
   dropDown: {
     width: 300,
@@ -75,16 +97,14 @@ const styles = StyleSheet.create({
 
   styleSelectorContainer: {
     height: 'auto',
-  },
-  styleRowList: {},
-  styleTextDropdown: {
     color: 'gray',
-    fontWeight: '100',
   },
-  styleListContainer: {
-    zIndex: 50,
+  styleTextDropdownSelected: {
+    color: 'gray',
+
+    fontWeight: '500',
+    paddingLeft: 18,
   },
-  styleMainWrapper: {},
 });
 
 export default MultiSelectExample;

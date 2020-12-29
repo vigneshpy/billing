@@ -56,8 +56,6 @@ const Form = ({fields, action, buttonText, buttonStyle, elementColor,mode}) => {
 
   const submit = async () => {
     setErrorMessage('');
-    setValidationErrors(getInitialState(fieldKeys,true));
-
     const errors = validateFields(fields, values);
 
     if (hasValidationError(errors)) {
