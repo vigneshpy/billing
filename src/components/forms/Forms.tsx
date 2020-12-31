@@ -18,7 +18,8 @@ import {formatDate} from '../config/Format';
 
 
 
-const Form = ({fields, action, buttonText, buttonStyle, elementColor,mode}) => {
+const Form = (props) => {
+  const {fields, action, buttonText, buttonStyle, elementColor,mode}=props;
   const btnColor = elementColor ? elementColor : AppColors.COLOR_PRIMARY;
   const fieldKeys = Object.keys(fields);
   
@@ -50,7 +51,9 @@ const Form = ({fields, action, buttonText, buttonStyle, elementColor,mode}) => {
       setValidationErrors(newErrors);
     }
   };
-  const getValues = () => {
+  const getValues = (rawData=false) => {
+    if (rawData)
+        return values;
     return fieldKeys.sort().map((key) => values[key]);
   };
 
@@ -63,10 +66,10 @@ const Form = ({fields, action, buttonText, buttonStyle, elementColor,mode}) => {
       return setValidationErrors(errors);
     }
     try {
-      const result = await action(...getValues());
-      console.log(result);
+      const result = await action(getValues(true));
     } catch (e) {
-      setErrorMessage(e.message);
+      console.warn(e);
+      setErrorMessage("Sorry Something went Wrong");
     }
 
     

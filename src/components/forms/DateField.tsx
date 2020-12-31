@@ -3,9 +3,9 @@ import {View, Button, Platform, Pressable} from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import {TextInput} from 'react-native-paper';
 import {formatDate} from '../config/Format';
-
+const today = new Date();
 const DatePicker = (props) => {
-  const today = new Date();
+  const {label,style,theme,inputProps,onDateChange} =props;
   const [date, setDate] = useState(new Date(today));
   const [show, setShow] = useState(false);
 
@@ -13,7 +13,7 @@ const DatePicker = (props) => {
     setShow(false);
     const currentDate = selectedDate || date;
     console.warn(currentDate);
-    props.onDateChange(formatDate(date, 'DD-MM-YYYY'));
+    onDateChange(formatDate(date, 'DD-MM-YYYY'));
     setDate(currentDate);
   };
   return (
@@ -21,12 +21,12 @@ const DatePicker = (props) => {
       <Pressable onPress={() => setShow(true)}>
         <View pointerEvents="none">
           <TextInput
-            label={props.label}
+            label={label}
             value={formatDate(date, 'MMM-DD-yyyy')}
-            style={props.style}
+            style={style}
             mode="outlined"
-            theme={props.theme}
-            {...props.inputProps}
+            theme={theme}
+            {...inputProps}
           />
         </View>
       </Pressable>

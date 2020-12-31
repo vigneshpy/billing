@@ -6,26 +6,34 @@ import {
   validateLength,
   validateMobile,
 } from '../forms/Validation';
-import React, {useState,FunctionComponent } from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import {TextInput} from 'react-native-paper';
+import SQLiteScreen from '../../containers/api/database';
 
+const db = new SQLiteScreen();
 
 const CustomerScreen = (props) => {
-  const customerSave = () => {
-    alert('save');
+  const customerSave = async (values) => {
+    const customerName = values['customerName'];
+    const customerNo = values['customerNo'];
+    const imei1 = values['imei1'];
+    const query =
+      'insert into  bl_customers (customerName,customerNo,imei1) values(?,?,?)';
+    //  const query=
+    await db.ExecuteQuery(query, [customerName, customerNo, imei1]);
   };
   const customer = () => {
     const fields = {
       customerName: {
         label: 'Customer Name',
-        type:'text',
+        type: 'text',
         validators: [validateContent, validateLength],
       },
       customerNo: {
         label: 'Mobile No',
-        type:'text',
+        type: 'text',
         validators: [validateMobile],
         inputProps: {
           keyboardType: 'phone-pad',
@@ -35,7 +43,7 @@ const CustomerScreen = (props) => {
       },
       imei1: {
         label: 'IMEI No',
-        type:'text',
+        type: 'text',
         inputProps: {
           keyboardType: 'phone-pad',
           maxLength: 16,
@@ -53,7 +61,6 @@ const CustomerScreen = (props) => {
           buttonText="Save"
           buttonStyle={{width: 200}}
           action={customerSave}
-          elementColor=''
         />
       </View>
     );

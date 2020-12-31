@@ -6,26 +6,35 @@ import {
   validateLength,
   validateMobile,
 } from '../forms/Validation';
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
-import {TextInput} from 'react-native-paper';
+import SQLiteScreen from '../../containers/api/database';
 
-const CustomerScreen = (props) => {
-  const customerSave = () => {
+const db = new SQLiteScreen();
+
+const ServiceScreen = (props) => {
+  useEffect(() => {
+    loadCustomer();
+  }, []);
+
+  const loadCustomer = async () => {
+    var results = await db.ExecuteQuery('select * from bl_customers');
+    console.warn(results.rows);
+  };
+
+  const serviceSave = () => {
     alert('save');
   };
-  const getData=()=>{
-    alert('customername')
-
-  }
+  const getData = () => {
+    alert('customername');
+  };
   const service = () => {
     const fields = {
-
       customerName: {
         type: 'autocomplete',
         label: 'Customer Name',
-        data:{getData},
+        data: {getData},
         validators: [validateContent],
         inputProps: {
           returnKeyType: 'next',
@@ -36,7 +45,7 @@ const CustomerScreen = (props) => {
         type: 'text',
         validators: [validateContent, validateLength],
       },
-     
+
       serviceDate: {
         type: 'date',
         label: 'Serviced Date',
@@ -56,11 +65,11 @@ const CustomerScreen = (props) => {
         <View style={styles.header}>
           <Text style={styles.headerText}>Service</Text>
         </View>
-         <Forms
+        <Forms
           fields={fields}
           buttonText="Save"
           buttonStyle={{width: 200}}
-          action={customerSave}
+          action={serviceSave}
         />
       </View>
     );
@@ -79,4 +88,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default CustomerScreen;
+export default ServiceScreen;

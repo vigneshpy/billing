@@ -3,7 +3,8 @@ import {Text, View, StyleSheet} from 'react-native';
 import {HelperText, TextInput} from 'react-native-paper';
 import DatePicker from './DateField';
 import AutoComplete from './AutoCompleteField';
-const Field = ({fieldName, field, value, onChangeText, error, key, color}) => {
+const Field = (props) => {
+  const {fieldName, field, value, onChangeText, error, color}=props;
   const fieldType = field.type;
 
   const renderField = (type: string) => {

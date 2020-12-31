@@ -28,12 +28,12 @@ const items = [
 ];
 
 const MultiSelectExample = (props) => {
+  const {label, onChangeText} = props;
   const [value, setValue] = useState([]);
 
   const onChange = (text, e) => {
-    alert(text);
     setValue(text);
-    props.onChangeText(text);
+    onChangeText(text.toString());
   };
 
   const onfocus = () => {};
@@ -47,7 +47,7 @@ const MultiSelectExample = (props) => {
         uniqueKey="id"
         onSelectedItemsChange={onChange}
         selectedItems={value}
-        selectText={props.label}
+        selectText={label}
         searchInputPlaceholderText="Search Items..."
         onChangeInput={(text) => console.log(text)}
         tagRemoveIconColor="#CCC"
@@ -97,11 +97,8 @@ const styles = StyleSheet.create({
 
   styleSelectorContainer: {
     height: 'auto',
-    color: 'gray',
   },
   styleTextDropdownSelected: {
-    color: 'gray',
-
     fontWeight: '500',
     paddingLeft: 18,
   },
