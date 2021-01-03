@@ -5,7 +5,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import NavTab from "./components/navigation/navigationTab";
 import SQLite from 'react-native-sqlite-storage';
-import SQLiteScreen from './containers/api/database';
+import Toast from 'react-native-toast-message';
 const Tabs = createMaterialBottomTabNavigator();
 
 global.db = SQLite.openDatabase(
@@ -20,13 +20,12 @@ global.db = SQLite.openDatabase(
   }
 );
 
-const dbs=new SQLiteScreen();
-dbs.CreateTable();
 const App = () => {
   
   return (
     <NavigationContainer>
       <NavTab />
+      <Toast ref={(ref) => Toast.setRef(ref)} />
      </NavigationContainer>
   );
 };

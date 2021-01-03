@@ -15,7 +15,8 @@ import moment from 'moment';
 const AppColors = AppStyles.color;
 const AppFonts = AppStyles.fonts;
 import {formatDate} from '../config/Format';
-import Spinner from '../forms/loader'
+import Spinner from '../forms/loader';
+import Toast, { BaseToast } from 'react-native-toast-message';
 
 
 
@@ -42,6 +43,7 @@ const Form = (props) => {
   const [validationErrors, setValidationErrors] = useState(
     getInitialState(fieldKeys),
   );
+
   const onChangeValue = (key, value) => {
     const newState = {...values, [key]: value};
     console.log(newState);
@@ -59,9 +61,16 @@ const Form = (props) => {
     return fieldKeys.sort().map((key) => values[key]);
   };
 
+  const showToast=(text)=>{
+    Toast.show({
+      text1: text,
+    });
+  
+  }
+
   const submit = async () => {
     setErrorMessage('');
-    setSpinner(true);
+    
     const errors = validateFields(fields, values);
 
     if (hasValidationError(errors)) {
@@ -69,13 +78,16 @@ const Form = (props) => {
       return setValidationErrors(errors);
     }
     try {
+      setSpinner(true);
       const result = await action(getValues(true));
+     
     } catch (e) {
       console.warn(e);
       setErrorMessage("Sorry Something went Wrong");
     }
-
+    
     setSpinner(false);
+    showToast('Saved');
   };
   return (
     <SafeAreaView>
