@@ -15,6 +15,7 @@ import moment from 'moment';
 const AppColors = AppStyles.color;
 const AppFonts = AppStyles.fonts;
 import {formatDate} from '../config/Format';
+import Spinner from '../forms/loader'
 
 
 
@@ -36,6 +37,7 @@ const Form = (props) => {
     return state;
   };
   const [values, setValues] = useState(getInitialState(fieldKeys,true));
+  const [spinner,setSpinner]=useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [validationErrors, setValidationErrors] = useState(
     getInitialState(fieldKeys),
@@ -59,6 +61,7 @@ const Form = (props) => {
 
   const submit = async () => {
     setErrorMessage('');
+    setSpinner(true);
     const errors = validateFields(fields, values);
 
     if (hasValidationError(errors)) {
@@ -72,12 +75,13 @@ const Form = (props) => {
       setErrorMessage("Sorry Something went Wrong");
     }
 
-    
+    setSpinner(false);
   };
   return (
     <SafeAreaView>
       <ScrollView keyboardShouldPersistTaps='always' nestedScrollEnabled={true}>
         <View style={styles.container}>
+          <Spinner visible={spinner} animation="fade"/>
           <Text style={styles.error}>{errorMessage}</Text>
           {fieldKeys.map((key) => {
             return (

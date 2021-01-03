@@ -40,7 +40,8 @@ const Field = (props) => {
         label={field.label}
         value={value} 
         mode="outlined"  
-       color={color}
+        color={color}
+        data={field.data}
         customProps={field.inputProps}
         onChangeText={(text) => onChangeText(fieldName, text)}
 

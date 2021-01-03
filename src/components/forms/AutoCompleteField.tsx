@@ -1,34 +1,36 @@
 import React, {Component} from 'react';
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 
-const items = [
-  {
-    id: '92i3adijs7yta',
-    name: 'Ondo',
-  },
-  {
-    id: '92iijq2s71yta',
-    name: 'Onedo',
-  },
-  {
-    id: '922iij2es7yta',
-    name: 'Onedo',
-  },
+// const items = [
+//   {
+//     id: '92i3adijs7yta',
+//     name: 'Ondo',
+//   },
+//   {
+//     id: '92iijq2s71yta',
+//     name: 'Onedo',
+//   },
+//   {
+//     id: '922iij2es7yta',
+//     name: 'Onedo',
+//   },
 
-  {
-    id: 'seee',
-    name: 'Onddo',
-  },
-  {
-    id: '92i2ssij2s7yta',
-    name: 'Ond1o',
-  },
-];
+//   {
+//     id: 'seee',
+//     name: 'Onddo',
+//   },
+//   {
+//     id: '92i2ssij2s7yta',
+//     name: 'Ond1o',
+//   },
+// ];
 
 const MultiSelectExample = (props) => {
-  const {label, onChangeText} = props;
+  const {label, onChangeText, data} = props;
+  const [items,setItems]=useState(data['data']);
+
   const [value, setValue] = useState([]);
 
   const onChange = (text, e) => {
@@ -96,7 +98,8 @@ const styles = StyleSheet.create({
   },
 
   styleSelectorContainer: {
-    height: 'auto',
+    height:'auto',
+    
   },
   styleTextDropdownSelected: {
     fontWeight: '500',

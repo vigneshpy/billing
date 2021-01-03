@@ -11,11 +11,13 @@ import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import {TextInput} from 'react-native-paper';
 import SQLiteScreen from '../../containers/api/database';
-
+import Spinner from  '../forms/loader';
 const db = new SQLiteScreen();
-
 const CustomerScreen = (props) => {
+
+  const [spinner,setSpinner]=useState(false);
   const customerSave = async (values) => {
+    setSpinner(true);
     const customerName = values['customerName'];
     const customerNo = values['customerNo'];
     const imei1 = values['imei1'];
@@ -23,6 +25,7 @@ const CustomerScreen = (props) => {
       'insert into  bl_customers (customerName,customerNo,imei1) values(?,?,?)';
     //  const query=
     await db.ExecuteQuery(query, [customerName, customerNo, imei1]);
+    setSpinner(false);
   };
   const customer = () => {
     const fields = {
@@ -53,6 +56,7 @@ const CustomerScreen = (props) => {
     };
     return (
       <View style={{flex: 1}}>
+        <Spinner visible={spinner} />
         <View style={styles.header}>
           <Text style={styles.headerText}>Customer</Text>
         </View>

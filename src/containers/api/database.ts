@@ -28,10 +28,14 @@ export default class SQLiteScreen extends React.Component {
     });
   // Create Table
   async CreateTable() {
-    let Table = await this.ExecuteQuery(
-      'CREATE TABLE IF NOT EXISTS bl_customers (id INTEGER PRIMARY KEY NOT NULL, customerName Text,customerNo Text ,imei1 Text, created_date  TIMESTAMP DEFAULT CURRENT_TIMES)',
+    let customer = await this.ExecuteQuery(
+      'CREATE TABLE IF NOT EXISTS bl_customers (id INTEGER PRIMARY KEY NOT NULL, customerName Text,customerNo Text ,imei1 Text, created_date  TIMESTAMP DEFAULT CURRENT_TIMES);CREATE TABLE IF NOT EXISTS bl_service (id INTEGER PRIMARY KEY NOT NULL, customerName Text,serviceName Text ,serviceDate Text,serviceCharge Text, created_date  TIMESTAMP DEFAULT CURRENT_TIMES);',
       [],
     );
-    console.log(Table);
+    let service = await this.ExecuteQuery(
+      'CREATE TABLE IF NOT EXISTS bl_service (id INTEGER PRIMARY KEY NOT NULL, customerName Text,serviceName Text ,serviceDate Text,serviceCharge Text, created_date  TIMESTAMP DEFAULT CURRENT_TIMES);',
+      [],
+    );
+    console.log(service);
   }
 }
