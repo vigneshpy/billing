@@ -25,6 +25,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <NavTab />
+      
       <Toast ref={(ref) => Toast.setRef(ref)} />
      </NavigationContainer>
   );

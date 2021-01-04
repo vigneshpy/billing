@@ -2,19 +2,18 @@ import {createStackNavigator} from '@react-navigation/stack';
 import React from 'react';
 import StackNavWrapper from '../navigation/stackNavWrapper';
 import navigate from '../navigation/navigationService';
-import ModelList from '../list/modalList';
+
 import {View, Text,Button} from 'react-native';
 
-const ReportScreen = ({navigation}) => {
-  const home = () => {
+const ListCustomer = ({navigation}) => {
+  const ListCustomer = () => {
     return (
       <View >
-        <Text>Report</Text>
-        {/* <ModelList /> */}
+        <Text>List Customer</Text>
       </View>
     );
   };
-  return <StackNavWrapper component={home} name="Report" />;
+  return <StackNavWrapper component={ListCustomer} name="ListCustomer" />;
 };
 
-export default ReportScreen;
+export default ListCustomer;

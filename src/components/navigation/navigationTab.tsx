@@ -2,15 +2,22 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import HomeScreen from '../screens/HomeScreen';
-import ServiceScreen from '../screens/ServiceScreen';
+import ServiceScreen from '../screens/ServiceTabScreen';
 import ReportScreen from '../screens/ReportScreen';
-import CustomerScreen from '../screens/CustomerScreen';
+import CustomerScreen from '../screens/CustomerTabScreen';
 import styles from "../config/styles";
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
+
+
+
+
 const Tabs = createMaterialBottomTabNavigator();
 
 const AppStyle=styles.color;
-const NavTab = () => {
+
+
+
+const NavTabBottom = () => {
 
 
   return (
@@ -64,4 +71,4 @@ const NavTab = () => {
   );
 };
 
-export default NavTab;
+export default NavTabBottom;
