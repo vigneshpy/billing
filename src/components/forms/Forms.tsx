@@ -62,9 +62,7 @@ const Form = (props) => {
   };
 
   const showToast=(text)=>{
-    Toast.show({
-      text1: text,
-    });
+    Toast.show({text1: text});
   
   }
 
@@ -88,6 +86,9 @@ const Form = (props) => {
     
     setSpinner(false);
     showToast('Saved');
+    console.log(values);
+    setValues(getInitialState(fieldKeys,true))
+    console.log(values);
   };
   return (
     <SafeAreaView>

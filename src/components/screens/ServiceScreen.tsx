@@ -10,12 +10,11 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import SQLiteScreen from '../../containers/api/database';
-import Spinner from  '../forms/loader';
+import Spinner from '../forms/loader';
 const db = new SQLiteScreen();
-db.CreateTable();
 const ServiceScreen = (props) => {
   const [data, setData] = useState([]);
-  const [spinner,setSpinner]=useState(false);
+  const [spinner, setSpinner] = useState(false);
   useEffect(() => {
     loadCustomer();
   }, []);
@@ -38,7 +37,6 @@ const ServiceScreen = (props) => {
   };
 
   const serviceSave = async (values) => {
-  
     const customerName = values['customerName'];
     const serviceName = values['serviceDate'];
     const serviceDate = values['serviceDate'];
@@ -52,11 +50,6 @@ const ServiceScreen = (props) => {
       serviceDate,
       serviceCharge,
     ]);
-  
-  };
-
-  const getData = () => {
-    alert('customername');
   };
   const service = () => {
     const fields = {

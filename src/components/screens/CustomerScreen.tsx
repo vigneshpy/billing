@@ -13,9 +13,20 @@ import {TextInput} from 'react-native-paper';
 import SQLiteScreen from '../../containers/api/database';
 import Spinner from  '../forms/loader';
 const db = new SQLiteScreen();
-const CustomerScreen = (props) => {
-
+const CustomerScreen = ({ navigation, route }) => {
+  const {itemId}=route.params;
   const [spinner,setSpinner]=useState(false);
+  
+  useEffect(()=>{
+      if(itemId)
+        customerSave(itemId);
+
+  },[]);
+
+  const fetchSingleReord=(id)=>{
+    
+  }
+
   const customerSave = async (values) => {
     setSpinner(true);
     const customerName = values['customerName'];

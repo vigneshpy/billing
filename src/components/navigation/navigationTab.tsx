@@ -5,25 +5,18 @@ import HomeScreen from '../screens/HomeScreen';
 import ServiceScreen from '../screens/ServiceTabScreen';
 import ReportScreen from '../screens/ReportScreen';
 import CustomerScreen from '../screens/CustomerTabScreen';
-import styles from "../config/styles";
+import styles from '../config/styles';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
-
-
-
 
 const Tabs = createMaterialBottomTabNavigator();
 
-const AppStyle=styles.color;
-
-
+const AppStyle = styles.color;
 
 const NavTabBottom = () => {
-
-
   return (
     <Tabs.Navigator
-    backBehavior="history"
-    shifting={false}
+      backBehavior="history"
+      shifting={false}
       initialRouteName="Home"
       activeColor="#f0edf6"
       inactiveColor="#3e2465"
@@ -33,12 +26,12 @@ const NavTabBottom = () => {
         component={HomeScreen}
         options={{
           title: 'Home',
-          tabBarLabel: "Home",
+          tabBarLabel: 'Home',
           tabBarIcon: ({color}) => <Icon name="home" color={color} size={20} />,
         }}
       />
       <Tabs.Screen
-        name="Customer"
+        name="CustomerScreen"
         component={CustomerScreen}
         options={{
           tabBarLabel: 'Customer',

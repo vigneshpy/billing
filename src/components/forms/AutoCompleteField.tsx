@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component,useRef} from 'react';
 import {useState, useEffect} from 'react';
 import {View, StyleSheet} from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
@@ -29,6 +29,7 @@ import MultiSelect from 'react-native-multiple-select';
 
 const MultiSelectExample = (props) => {
   const {label, onChangeText, data} = props;
+  let multiSelect=useRef(null);
   const [items,setItems]=useState(data['data']);
 
   const [value, setValue] = useState([]);
@@ -37,6 +38,10 @@ const MultiSelectExample = (props) => {
     setValue(text);
     onChangeText(text.toString());
   };
+  const onClear = (text, e) => {
+    setValue('');
+    onChangeText('');
+  };
 
   const onfocus = () => {};
   const defaultProps = {onFocus: onfocus};
@@ -44,6 +49,7 @@ const MultiSelectExample = (props) => {
     <View>
       <MultiSelect
         hideTags
+        ref={c => multiSelect = c}
         single={true}
         items={items}
         uniqueKey="id"
@@ -73,6 +79,7 @@ const MultiSelectExample = (props) => {
         styleListContainer={styles.styleListContainer}
         styleMainWrapper={styles.styleMainWrapper}
         textInputProps={defaultProps}
+        onClearSelector={onClear}
       />
     </View>
   );
