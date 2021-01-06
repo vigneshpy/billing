@@ -16,32 +16,54 @@ const AppColors = AppStyles.color;
 const AppFonts = AppStyles.fonts;
 import {formatDate} from '../config/Format';
 import Spinner from '../forms/loader';
-import Toast, { BaseToast } from 'react-native-toast-message';
-
-
-
+import Toast, {BaseToast} from 'react-native-toast-message';
 const Form = (props) => {
-  const {fields, action, buttonText, buttonStyle, elementColor,mode}=props;
+  const {
+    fields,
+    action,
+    buttonText,
+    buttonStyle,
+    elementColor,
+    mode,
+    loadedData,
+    afterSubmit
+  } = props;
   const btnColor = elementColor ? elementColor : AppColors.COLOR_PRIMARY;
   const fieldKeys = Object.keys(fields);
-  
-  const getInitialState = (fieldKeys,defaultFlag=false) => {
+  const getInitialState = (fieldKeys, defaultFlag = false) => {
     const state = {};
-    
     fieldKeys.forEach((key) => {
-       if(fields[key].type=="date" && defaultFlag)
-          state[key] = formatDate(new Date(),'DD-MM-YYYY');
-          // console.log('work')
-        else        
-             state[key] = '';
+      if (fields[key].type == 'date' && defaultFlag)
+        state[key] = formatDate(new Date(), 'DD-MM-YYYY');
+      else state[key] = '';
+
+      console.log("state1");
+      console.log(state); 
+      if (loadedData) {
+        Object.keys(loadedData).forEach((loadedKey) => {
+          if (key == loadedKey) {
+            state[key] = loadedData[key];
+          }
+        });
+      }
     });
+    console.log("state2");
+    console.log(state);
     return state;
   };
-  const [values, setValues] = useState(getInitialState(fieldKeys,true));
-  const [spinner,setSpinner]=useState(false);
+
+  const emptyState = (fieldKeys) => {
+    const errors = {};
+    fieldKeys.forEach((key) => {
+      errors[key] = '';
+    });
+    return errors;
+  };
+  const [values, setValues] = useState(getInitialState(fieldKeys, true));
+  const [spinner, setSpinner] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [validationErrors, setValidationErrors] = useState(
-    getInitialState(fieldKeys),
+    emptyState(fieldKeys),
   );
 
   const onChangeValue = (key, value) => {
@@ -55,46 +77,44 @@ const Form = (props) => {
       setValidationErrors(newErrors);
     }
   };
-  const getValues = (rawData=false) => {
-    if (rawData)
-        return values;
+  const getValues = (rawData = false) => {
+    if (rawData) return values;
     return fieldKeys.sort().map((key) => values[key]);
   };
 
-  const showToast=(text)=>{
+  const showToast = (text) => {
     Toast.show({text1: text});
-  
-  }
+  };
 
   const submit = async () => {
     setErrorMessage('');
-    
+
     const errors = validateFields(fields, values);
 
     if (hasValidationError(errors)) {
-      
       return setValidationErrors(errors);
     }
     try {
       setSpinner(true);
       const result = await action(getValues(true));
-     
+      // setValues(emptyState(fieldKeys));
+      // showToast('Saved');
+      // afterSubmit();
     } catch (e) {
       console.warn(e);
-      setErrorMessage("Sorry Something went Wrong");
+      setErrorMessage('Sorry Something went Wrong');
     }
-    
+
     setSpinner(false);
-    showToast('Saved');
-    console.log(values);
-    setValues(getInitialState(fieldKeys,true))
+   
+   
     console.log(values);
   };
   return (
     <SafeAreaView>
-      <ScrollView keyboardShouldPersistTaps='always' nestedScrollEnabled={true}>
+      <ScrollView keyboardShouldPersistTaps="always" nestedScrollEnabled={true}>
         <View style={styles.container}>
-          <Spinner visible={spinner} animation="fade"/>
+          <Spinner visible={spinner} animation="fade" />
           <Text style={styles.error}>{errorMessage}</Text>
           {fieldKeys.map((key) => {
             return (
@@ -110,7 +130,7 @@ const Form = (props) => {
             );
           })}
           <Button
-            mode={mode?mode:"contained"}
+            mode={mode ? mode : 'contained'}
             onPress={submit}
             style={buttonStyle}
             color={btnColor}>
