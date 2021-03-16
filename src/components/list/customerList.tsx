@@ -65,7 +65,7 @@ const ListCustomer = ({navigation}) => {
     );
   };
 
-  const ListCustomer = () => {
+  
     return (
       <SafeAreaView>
         <FlatList
@@ -79,8 +79,8 @@ const ListCustomer = ({navigation}) => {
         />
       </SafeAreaView>
     );
-  };
-  return <StackNavWrapper component={ListCustomer} name="ListCustomer" />;
+  
+  
 };
 
 const styles = StyleSheet.create({

@@ -6,7 +6,7 @@ import {
   validateLength,
   validateMobile,
 } from '../forms/Validation';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect,useRef} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import SQLiteScreen from '../../containers/api/database';
@@ -15,24 +15,25 @@ import {pathOr} from "ramda";
 const db = new SQLiteScreen();
 const CustomerScreen = ({ navigation, route }) => {
   const itemid=pathOr('',['params','id'],route);
-  console.log(itemid);
   const [spinner,setSpinner]=useState(false);
   const [loadedData,setLoadedData]=useState({});
-  
+
+
   useEffect(()=>{
      if(itemid)
         fetchSingleReord(itemid);
+ 
 
-  },[itemid]);
+  },[navigation]);
 
   const fetchSingleReord=async(id)=>{
+    console.log('single record')
     const query =
-      'select * from  bl_customers where id=?';
+      'select customerName,customerNo,imei1 from  bl_customers where id=?';
     //  const query=
     const result=await db.ExecuteQuery(query, [id]);
     var rows = result.rows;
     console.log("rows.item(0)");
-    console.log(rows.item(0));
     setLoadedData(rows.item(0));
   }
 
@@ -46,12 +47,12 @@ const CustomerScreen = ({ navigation, route }) => {
     await db.ExecuteQuery(query, [customerName, customerNo, imei1,itemid]); 
    }
     else{
-    var query ='insest into  bl_customers (customerName,customerNo,imei1) values(?,?,?)';
+    var query ='insert into  bl_customers (customerName,customerNo,imei1) values(?,?,?)';
     await db.ExecuteQuery(query, [customerName, customerNo, imei1]);   
   }  
     setSpinner(false);
   };
-  const customer = () => {
+ 
     const fields = {
       customerName: {
         label: 'Customer Name',
@@ -94,8 +95,8 @@ const CustomerScreen = ({ navigation, route }) => {
         />
       </View>
     );
-  };
-  return <StackNavWrapper component={customer} name="Customer" />;
+
+  
 };
 
 const styles = StyleSheet.create({

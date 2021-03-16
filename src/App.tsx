@@ -14,7 +14,7 @@ global.db = SQLite.openDatabase(
     location: 'default',
     createFromLocation: '~SQLite.db',
   },
-  () => {console.log('succs')},
+  () => {},
   error => {
     console.log("ERROR: " + error);
   }

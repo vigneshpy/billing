@@ -2,13 +2,15 @@ import service from './ServiceScreen';
 import list from '../list/serviceList';
 import React from 'react';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import  StackNavWrapper from "../navigation/stackNavWrapper";
 const TopTaps = createMaterialTopTabNavigator();
 
-const ServiceScreen = () => {
+const ServiceScreenTab = () => {
+ 
   return (
     <TopTaps.Navigator
       initialRouteName="servicelist"
-      tabBarPosition="bottom"
+      tabBarPosition="top"
       tabBarOptions={{pressColor: '#78C3FB'}}>
       <TopTaps.Screen
         name="service"
@@ -22,6 +24,13 @@ const ServiceScreen = () => {
       />
     </TopTaps.Navigator>
   );
+
+  
 };
 
-export default ServiceScreen;
+
+const ServiceScreenStack=()=>{
+  return <StackNavWrapper component={ServiceScreenTab} name="Service" />;
+  }
+  export default ServiceScreenStack;
+  

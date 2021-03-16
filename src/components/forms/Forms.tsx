@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import {
   Text,
   View,
@@ -28,6 +28,9 @@ const Form = (props) => {
     loadedData,
     afterSubmit
   } = props;
+  console.log('initial');
+  console.log(loadedData)
+  
   const btnColor = elementColor ? elementColor : AppColors.COLOR_PRIMARY;
   const fieldKeys = Object.keys(fields);
   const getInitialState = (fieldKeys, defaultFlag = false) => {
@@ -36,19 +39,7 @@ const Form = (props) => {
       if (fields[key].type == 'date' && defaultFlag)
         state[key] = formatDate(new Date(), 'DD-MM-YYYY');
       else state[key] = '';
-
-      console.log("state1");
-      console.log(state); 
-      if (loadedData) {
-        Object.keys(loadedData).forEach((loadedKey) => {
-          if (key == loadedKey) {
-            state[key] = loadedData[key];
-          }
-        });
-      }
     });
-    console.log("state2");
-    console.log(state);
     return state;
   };
 
@@ -65,6 +56,13 @@ const Form = (props) => {
   const [validationErrors, setValidationErrors] = useState(
     emptyState(fieldKeys),
   );
+
+  useEffect(() => {
+    console.log('hook');
+    console.log(loadedData)
+    if(loadedData) setValues(loadedData);
+    
+  },[]);
 
   const onChangeValue = (key, value) => {
     const newState = {...values, [key]: value};
@@ -97,9 +95,9 @@ const Form = (props) => {
     try {
       setSpinner(true);
       const result = await action(getValues(true));
-      // setValues(emptyState(fieldKeys));
-      // showToast('Saved');
-      // afterSubmit();
+      setValues(emptyState(fieldKeys));
+      showToast('Saved');
+      afterSubmit();
     } catch (e) {
       console.warn(e);
       setErrorMessage('Sorry Something went Wrong');

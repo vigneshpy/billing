@@ -51,7 +51,7 @@ const ServiceScreen = (props) => {
       serviceCharge,
     ]);
   };
-  const service = () => {
+  
     const fields = {
       customerName: {
         type: 'autocomplete',
@@ -96,9 +96,8 @@ const ServiceScreen = (props) => {
         />
       </View>
     );
-  };
-  return <StackNavWrapper component={service} name="Customer" />;
-};
+  }
+  
 
 const styles = StyleSheet.create({
   header: {
