@@ -13,12 +13,12 @@ const ServiceScreenTab = () => {
       tabBarPosition="top"
       tabBarOptions={{pressColor: '#78C3FB'}}>
       <TopTaps.Screen
-        name="service"
+        name="servicelist"
         component={list}
         options={{tabBarLabel: 'Service List'}}
       />
       <TopTaps.Screen
-        name="servicelist"
+        name="service"
         component={service}
         options={{tabBarLabel: 'Service'}}
       />

@@ -15,25 +15,25 @@ import {pathOr} from "ramda";
 const db = new SQLiteScreen();
 const CustomerScreen = ({ navigation, route }) => {
   const itemid=pathOr('',['params','id'],route);
+  
   const [spinner,setSpinner]=useState(false);
   const [loadedData,setLoadedData]=useState({});
 
 
   useEffect(()=>{
      if(itemid)
+    //  console.log(itemid);
         fetchSingleReord(itemid);
- 
-
-  },[navigation]);
+  },[itemid]);
 
   const fetchSingleReord=async(id)=>{
-    console.log('single record')
+    
     const query =
       'select customerName,customerNo,imei1 from  bl_customers where id=?';
     //  const query=
     const result=await db.ExecuteQuery(query, [id]);
     var rows = result.rows;
-    console.log("rows.item(0)");
+   
     setLoadedData(rows.item(0));
   }
 
@@ -91,7 +91,7 @@ const CustomerScreen = ({ navigation, route }) => {
           buttonStyle={{width: 200}}
           action={customerSave}
           loadedData={loadedData}
-          afterSubmit={()=>navigation.navigate('ListCustomer')}
+          afterSubmit={()=>navigation.navigate('customerlist')}
         />
       </View>
     );

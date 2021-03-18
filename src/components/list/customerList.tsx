@@ -54,7 +54,7 @@ const ListCustomer = ({navigation}) => {
     return (
       <TouchableOpacity
         onPress={() =>
-          navigation.navigate('customer', {
+        navigation.navigate('customer', {
             id: item.id,
           })
         }>

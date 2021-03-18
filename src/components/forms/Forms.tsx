@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   Text,
   View,
@@ -17,6 +17,7 @@ const AppFonts = AppStyles.fonts;
 import {formatDate} from '../config/Format';
 import Spinner from '../forms/loader';
 import Toast, {BaseToast} from 'react-native-toast-message';
+import {isEmpty} from 'ramda';
 const Form = (props) => {
   const {
     fields,
@@ -26,21 +27,33 @@ const Form = (props) => {
     elementColor,
     mode,
     loadedData,
-    afterSubmit
+    afterSubmit,
   } = props;
-  console.log('initial');
-  console.log(loadedData)
-  
   const btnColor = elementColor ? elementColor : AppColors.COLOR_PRIMARY;
   const fieldKeys = Object.keys(fields);
+
   const getInitialState = (fieldKeys, defaultFlag = false) => {
     const state = {};
     fieldKeys.forEach((key) => {
       if (fields[key].type == 'date' && defaultFlag)
         state[key] = formatDate(new Date(), 'DD-MM-YYYY');
-      else state[key] = '';
+      else {
+        state[key] = '';
+      }
     });
+
     return state;
+  };
+
+  useEffect(() => {
+    if (!isEmpty(loadedData) && typeof loadedData != 'undefined') {
+      console.log(loadedData);
+      loadFormData();
+    }
+  }, [loadedData]);
+
+  const loadFormData = () => {
+    setValues(loadedData);
   };
 
   const emptyState = (fieldKeys) => {
@@ -56,13 +69,6 @@ const Form = (props) => {
   const [validationErrors, setValidationErrors] = useState(
     emptyState(fieldKeys),
   );
-
-  useEffect(() => {
-    console.log('hook');
-    console.log(loadedData)
-    if(loadedData) setValues(loadedData);
-    
-  },[]);
 
   const onChangeValue = (key, value) => {
     const newState = {...values, [key]: value};
@@ -80,7 +86,7 @@ const Form = (props) => {
     return fieldKeys.sort().map((key) => values[key]);
   };
 
-  const showToast = (text) => {
+  const showToast = (text: string) => {
     Toast.show({text1: text});
   };
 
@@ -104,9 +110,6 @@ const Form = (props) => {
     }
 
     setSpinner(false);
-   
-   
-    console.log(values);
   };
   return (
     <SafeAreaView>

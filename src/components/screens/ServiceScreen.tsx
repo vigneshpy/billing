@@ -12,7 +12,7 @@ import Forms from '../forms/Forms';
 import SQLiteScreen from '../../containers/api/database';
 import Spinner from '../forms/loader';
 const db = new SQLiteScreen();
-const ServiceScreen = (props) => {
+const ServiceScreen = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const [spinner, setSpinner] = useState(false);
   useEffect(() => {
@@ -38,7 +38,7 @@ const ServiceScreen = (props) => {
 
   const serviceSave = async (values) => {
     const customerName = values['customerName'];
-    const serviceName = values['serviceDate'];
+    const serviceName = values['serviceName'];
     const serviceDate = values['serviceDate'];
     const serviceCharge = values['serviceCharge'];
     const query =
@@ -93,6 +93,7 @@ const ServiceScreen = (props) => {
           buttonText="Save"
           buttonStyle={{width: 200}}
           action={serviceSave}
+          afterSubmit={()=>navigation.navigate('servicelist')}
         />
       </View>
     );

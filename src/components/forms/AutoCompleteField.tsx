@@ -29,8 +29,8 @@ import MultiSelect from 'react-native-multiple-select';
 
 const MultiSelectExample = (props) => {
   const {label, onChangeText, data} = props;
-  let multiSelect=useRef(null);
-  const [items,setItems]=useState(data['data']);
+  const list=data['data'];
+  const [items,setItems]=useState();
 
   const [value, setValue] = useState([]);
 
@@ -43,13 +43,22 @@ const MultiSelectExample = (props) => {
     onChangeText('');
   };
 
+  useEffect(()=>{
+    loadList();
+  },[list])
+
+
+  const loadList=()=>{
+    setItems(list);
+  }
+
   const onfocus = () => {};
   const defaultProps = {onFocus: onfocus};
   return (
     <View>
       <MultiSelect
         hideTags
-        ref={c => multiSelect = c}
+        
         single={true}
         items={items}
         uniqueKey="id"
