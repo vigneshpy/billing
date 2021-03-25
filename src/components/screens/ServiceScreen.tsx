@@ -11,13 +11,19 @@ import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import SQLiteScreen from '../../containers/api/database';
 import Spinner from '../forms/loader';
+import {pathOr} from 'ramda';
 const db = new SQLiteScreen();
 const ServiceScreen = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const [spinner, setSpinner] = useState(false);
+  const [loadedData, setLoadedData] = useState({});
+  const itemid = pathOr('', ['params', 'id'], route);
   useEffect(() => {
+    const subscribe = navigation.addListener("focus", () => {
     loadCustomer();
-  }, []);
+    });
+    fetchSingleReord(itemid);
+  }, [itemid]);
 
   const loadCustomer = async () => {
     setSpinner(true);
@@ -34,6 +40,17 @@ const ServiceScreen = ({ navigation, route }) => {
     setData(item);
     setSpinner(false);
     return item;
+  };
+
+
+  const fetchSingleReord = async (id) => {
+    const query =
+      'select customerName,serviceName,serviceDate,serviceCharge,serviceDate from  bl_service where id=?';
+    //  const query=
+    const result = await db.ExecuteQuery(query, [id]);
+    var rows = result.rows;
+
+    setLoadedData(rows.item(0));
   };
 
   const serviceSave = async (values) => {
@@ -92,6 +109,7 @@ const ServiceScreen = ({ navigation, route }) => {
           fields={fields}
           buttonText="Save"
           buttonStyle={{width: 200}}
+          loadedData={loadedData}
           action={serviceSave}
           afterSubmit={()=>navigation.navigate('servicelist')}
         />

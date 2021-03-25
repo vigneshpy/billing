@@ -6,13 +6,6 @@ import Loader from '../forms/loader';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {View, Text,Button,StyleSheet,RefreshControl} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
-
-
-
-
-
-
-
 const db = new SQLiteScreen();
 const ListService = ({navigation}) => {
   const [loader, setLoader] = useState(false);
@@ -41,7 +34,7 @@ const ListService = ({navigation}) => {
       item.push({
         id: rows.item(i).id,
         customerName: rows.item(i).customerName,
-        serviceDesc: rows.item(i).serviceName,
+        serviceName: rows.item(i).serviceName,
         serviceDate: rows.item(i).serviceDate,
         serviceCharge: rows.item(i).serviceCharge,
         serviceCreatedAt: rows.item(i).serviceCreatedAt
@@ -62,7 +55,8 @@ const ListService = ({navigation}) => {
           })
         }>
         <View key={item.id}>
-          <Text>{item.serviceDesc}</Text>
+          <Text>{item.serviceName}</Text>
+          <Text>{item.serviceCharge}</Text>
         </View>
       </TouchableOpacity>
     );
