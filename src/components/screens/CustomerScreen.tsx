@@ -11,7 +11,8 @@ import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import Spinner from '../forms/loader';
 import {pathOr} from 'ramda';
-
+import {CLIENT_TOKEN} from "@env"
+console.log("🚀 ~ file: CustomerScreen.tsx ~ line 15 ~ Config", CLIENT_TOKEN)
 const CustomerScreen = ({navigation, route}) => {
   const itemid = pathOr('', ['params', 'id'], route);
 
