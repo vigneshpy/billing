@@ -12,53 +12,84 @@ import Forms from '../forms/Forms';
 import Spinner from '../forms/loader';
 import {pathOr} from 'ramda';
 import axios from 'axios';
-import {API_ROOT} from '../../constants'
-import { getConfigForHeader } from '../../utilities/utilities';
-import { API_ID_FOR_CUSTOMER } from './constants';
+import {API_ROOT} from '../../constants';
+import {getConfigForHeader} from '../../utilities/utilities';
+import {API_ID_FOR_CUSTOMER} from './constants';
 
 const CustomerScreen = ({navigation, route}) => {
   const itemid = pathOr('', ['params', 'id'], route);
 
-  const [spinner, setSpinner] = useState(false);
+  const [loader, setLoader] = useState(false);
   const [loadedData, setLoadedData] = useState({});
 
   useEffect(() => {
-    if (itemid)
-      //  console.log(itemid);
-      fetchSingleReord(itemid);
+    if (itemid) console.log(itemid);
+    fetchSingleReord(itemid);
   }, [itemid]);
 
   const fetchSingleReord = async (id) => {
-   
+    axios
+      .get(
+        `${API_ROOT}/customername/${id}`,
+        getConfigForHeader(API_ID_FOR_CUSTOMER),
+      )
+      .then((res) => {
+        const data = pathOr([], ['data'], res);
+        console.log(
+          '🚀 ~ file: CustomerScreen.tsx ~ line 40 ~ .then ~ data',
+          data,
+        );
+        setLoadedData(data);
+        setLoader(false);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log(err, 'err');
+      });
   };
 
   const customerSave = (values) => {
-    
-    setSpinner(true);
+    setLoader(true);
+    const customer_name = pathOr('', ['customerName'], values);
+    const customer_phone_number = pathOr('', ['customerNo'], values);
+    const customer_imei_number = pathOr('', ['imei1'], values);
 
-    const customer_name = pathOr('',['customerName'],values);
-    const customer_phone_number = pathOr('',['customerNo'],values);
-    const customer_imei_number =  pathOr('',['imei1'],values);
+    const data = {customer_name, customer_phone_number, customer_imei_number};
 
-    const data = {customer_name,customer_phone_number,customer_imei_number};
+    if (itemid) {
+      axios
+        .put(
+          `${API_ROOT}/customername/${itemid}`,
+          data,
+          getConfigForHeader(API_ID_FOR_CUSTOMER),
+        )
+        .then((res) => {})
+        .catch((err) => {
+          console.log(err, 'err');
+        });
+    } else {
+      axios
+        .post(
+          `${API_ROOT}/customername`,
+          data,
+          getConfigForHeader(API_ID_FOR_CUSTOMER),
+        )
+        .then((res) => {})
+        .catch((err) => {
+          console.log(err, 'err');
+        });
+    }
 
-     axios.post(`${API_ROOT}/customername`,data,getConfigForHeader(API_ID_FOR_CUSTOMER))
-    .then((res)=>{
-     
-  }).catch((err)=>{
-    console.log(err,"err")
-  })
-   
-    setSpinner(false);
+    setLoader(false);
   };
 
   const fields = {
-    customerName: {
+    customer_name: {
       label: 'Customer Name',
       type: 'text',
       validators: [validateContent, validateLength],
     },
-    customerNo: {
+    customer_phone_number: {
       label: 'Mobile No',
       type: 'text',
       validators: [validateMobile],
@@ -68,7 +99,7 @@ const CustomerScreen = ({navigation, route}) => {
         returnKeyType: 'next',
       },
     },
-    imei1: {
+    customer_imei_number: {
       label: 'IMEI No',
       type: 'text',
       inputProps: {
@@ -80,7 +111,7 @@ const CustomerScreen = ({navigation, route}) => {
   };
   return (
     <View style={{flex: 1}}>
-      <Spinner visible={spinner} />
+      <Spinner visible={loader} />
       <View style={styles.header}>
         <Text style={styles.headerText}>Customer</Text>
       </View>
