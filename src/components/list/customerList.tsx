@@ -9,11 +9,9 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from 'react-native';
-import SQLiteScreen from '../../containers/api/database';
 import Loader from '../forms/loader';
 import {SafeAreaView} from 'react-native-safe-area-context';
 
-const db = new SQLiteScreen();
 const ListCustomer = ({navigation}) => {
   const [loader, setLoader] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -28,26 +26,7 @@ const ListCustomer = ({navigation}) => {
   }, []);
 
   const loadCustomer = async () => {
-    setLoader(true);
-    const results = await db.ExecuteQuery(
-      'select * from bl_customers order by id desc',
-      [],
-    );
-    // const results=await db.ExecuteQuery("delete from bl_customers",[])
-    var rows = results.rows;
-    var item = [];
-    for (let i = 0; i < rows.length; i++) {
-      item.push({
-        id: rows.item(i).id,
-        name: rows.item(i).customerName,
-        customerNo: rows.item(i).customerNo,
-        imei1: rows.item(i).imei1,
-        created: rows.item(i).created_date,
-      });
-    }
-    setValue(item);
-
-    setLoader(false);
+    
   };
 
   const renderList = (item) => {

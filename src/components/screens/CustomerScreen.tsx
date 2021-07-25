@@ -9,10 +9,9 @@ import {
 import React, {useState, useEffect, useRef} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
-import SQLiteScreen from '../../containers/api/database';
 import Spinner from '../forms/loader';
 import {pathOr} from 'ramda';
-const db = new SQLiteScreen();
+
 const CustomerScreen = ({navigation, route}) => {
   const itemid = pathOr('', ['params', 'id'], route);
 
@@ -26,29 +25,12 @@ const CustomerScreen = ({navigation, route}) => {
   }, [itemid]);
 
   const fetchSingleReord = async (id) => {
-    const query =
-      'select customerName,customerNo,imei1 from  bl_customers where id=?';
-    //  const query=
-    const result = await db.ExecuteQuery(query, [id]);
-    var rows = result.rows;
-
-    setLoadedData(rows.item(0));
+   
   };
 
   const customerSave = async (values) => {
     setSpinner(true);
-    const customerName = values['customerName'];
-    const customerNo = values['customerNo'];
-    const imei1 = values['imei1'];
-    if (itemid) {
-      var query =
-        'update  bl_customers set customerName=?,customerNo=?,imei1=? where id=?';
-      await db.ExecuteQuery(query, [customerName, customerNo, imei1, itemid]);
-    } else {
-      var query =
-        'insert into  bl_customers (customerName,customerNo,imei1) values(?,?,?)';
-      await db.ExecuteQuery(query, [customerName, customerNo, imei1]);
-    }
+
     setSpinner(false);
   };
 

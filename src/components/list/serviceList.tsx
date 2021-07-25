@@ -1,12 +1,10 @@
 import {createStackNavigator} from '@react-navigation/stack';
 import React,{useEffect,useState} from 'react';
 import StackNavWrapper from '../navigation/stackNavWrapper';
-import SQLiteScreen from '../../containers/api/database';
 import Loader from '../forms/loader';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {View, Text,Button,StyleSheet,RefreshControl} from 'react-native';
 import { TouchableOpacity, FlatList } from 'react-native-gesture-handler';
-const db = new SQLiteScreen();
 const ListService = ({navigation}) => {
   const [loader, setLoader] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -21,28 +19,7 @@ const ListService = ({navigation}) => {
   }, []);
 
   const loadService = async () => {
-    setLoader(true);
-    const results = await db.ExecuteQuery(
-      'select * from bl_service order by id desc',
-      [],
-    );
-    // const results=await db.ExecuteQuery("delete from bl_customers",[])
-    var rows = results.rows;
-    var item = [];
-    for (let i = 0; i < rows.length; i++) {
-      console.log(rows.item(i));
-      item.push({
-        id: rows.item(i).id,
-        customerName: rows.item(i).customerName,
-        serviceName: rows.item(i).serviceName,
-        serviceDate: rows.item(i).serviceDate,
-        serviceCharge: rows.item(i).serviceCharge,
-        serviceCreatedAt: rows.item(i).serviceCreatedAt
-      });
-    }
-    setValue(item);
-
-    setLoader(false);
+   
   };
 
   const renderList = (item) => {

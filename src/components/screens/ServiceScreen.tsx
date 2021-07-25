@@ -9,10 +9,9 @@ import {
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
-import SQLiteScreen from '../../containers/api/database';
 import Spinner from '../forms/loader';
 import {pathOr} from 'ramda';
-const db = new SQLiteScreen();
+
 const ServiceScreen = ({ navigation, route }) => {
   const [data, setData] = useState([]);
   const [spinner, setSpinner] = useState(false);
@@ -27,46 +26,18 @@ const ServiceScreen = ({ navigation, route }) => {
 
   const loadCustomer = async () => {
     setSpinner(true);
-    var results = await db.ExecuteQuery('select * from bl_customers');
-    var rows = results.rows;
-
-    var item = [];
-    for (let i = 0; i < rows.length; i++) {
-      item.push({
-        id: rows.item(i).id,
-        name: rows.item(i).customerName,
-      });
-    }
-    setData(item);
+  
     setSpinner(false);
-    return item;
+  
   };
 
 
   const fetchSingleReord = async (id) => {
-    const query =
-      'select customerName,serviceName,serviceDate,serviceCharge,serviceDate from  bl_service where id=?';
-    //  const query=
-    const result = await db.ExecuteQuery(query, [id]);
-    var rows = result.rows;
-
-    setLoadedData(rows.item(0));
+   
   };
 
   const serviceSave = async (values) => {
-    const customerName = values['customerName'];
-    const serviceName = values['serviceName'];
-    const serviceDate = values['serviceDate'];
-    const serviceCharge = values['serviceCharge'];
-    const query =
-      'insert into  bl_service (customerName,serviceName,serviceDate,serviceCharge) values(?,?,?,?)';
-    //  const query=
-    const result = await db.ExecuteQuery(query, [
-      customerName,
-      serviceName,
-      serviceDate,
-      serviceCharge,
-    ]);
+   
   };
   
     const fields = {
