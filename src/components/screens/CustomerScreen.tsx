@@ -11,8 +11,11 @@ import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import Spinner from '../forms/loader';
 import {pathOr} from 'ramda';
-import {CLIENT_TOKEN} from "@env"
-console.log("🚀 ~ file: CustomerScreen.tsx ~ line 15 ~ Config", CLIENT_TOKEN)
+import axios from 'axios';
+import {API_ROOT} from '../../constants'
+import { getConfigForHeader } from '../../utilities/utilities';
+import { API_ID_FOR_CUSTOMER } from './constants';
+
 const CustomerScreen = ({navigation, route}) => {
   const itemid = pathOr('', ['params', 'id'], route);
 
@@ -29,9 +32,23 @@ const CustomerScreen = ({navigation, route}) => {
    
   };
 
-  const customerSave = async (values) => {
+  const customerSave = (values) => {
+    
     setSpinner(true);
 
+    const customer_name = pathOr('',['customerName'],values);
+    const customer_phone_number = pathOr('',['customerNo'],values);
+    const customer_imei_number =  pathOr('',['imei1'],values);
+
+    const data = {customer_name,customer_phone_number,customer_imei_number};
+
+     axios.post(`${API_ROOT}/customername`,data,getConfigForHeader(API_ID_FOR_CUSTOMER))
+    .then((res)=>{
+     
+  }).catch((err)=>{
+    console.log(err,"err")
+  })
+   
     setSpinner(false);
   };
 

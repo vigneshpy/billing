@@ -16,7 +16,7 @@ const AppColors = AppStyles.color;
 const AppFonts = AppStyles.fonts;
 import {formatDate} from '../config/Format';
 import Spinner from '../forms/loader';
-import Toast, {BaseToast} from 'react-native-toast-message';
+import Toast from 'react-native-toast-message';
 import {isEmpty} from 'ramda';
 const Form = (props) => {
   const {
@@ -87,7 +87,7 @@ const Form = (props) => {
   };
 
   const showToast = (text: string) => {
-    Toast.show({text1: text});
+    Toast.show({text1:text});
   };
 
   const submit = async () => {
