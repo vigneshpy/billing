@@ -7,7 +7,7 @@ const HomeScreen = () => {
   const home = () => {
     return (
       <View>
-        <Text>Home</Text>
+         
       </View>
     );
   };

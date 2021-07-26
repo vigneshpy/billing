@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import HomeScreen from '../screens/HomeScreen';
-import ServiceScreen from '../screens/ServiceTabScreen';
-import ReportScreen from '../screens/ReportScreen';
-import CustomerScreen from '../screens/CustomerTabScreen';
+import HomeScreen from '../Screens/HomeScreen';
+import ServiceScreen from '../Screens/ServiceTabScreen';
+import ReportScreen from '../Screens/ReportScreen';
+import CustomerScreen from '../Screens/CustomerTabScreen';
 import styles from '../config/styles';
 import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 
