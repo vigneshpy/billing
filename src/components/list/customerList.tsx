@@ -3,15 +3,21 @@ import StackNavWrapper from '../navigation/stackNavWrapper';
 import {
   View,
   Text,
-  Button,
   FlatList,
   RefreshControl,
   StyleSheet,
   TouchableOpacity,
+  Image,
 } from 'react-native';
 import Loader from '../forms/loader';
 import {SafeAreaView} from 'react-native-safe-area-context';
-
+import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
+import axios from 'axios';
+import {API_ROOT} from '../../constants';
+import {getConfigForHeader} from '../../utilities/utilities';
+import {API_ID_FOR_CUSTOMER} from '../screens/constants';
+import {pathOr} from 'ramda';
+import Spinner from 'react-native-loading-spinner-overlay';
 const ListCustomer = ({navigation}) => {
   const [loader, setLoader] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -26,81 +32,106 @@ const ListCustomer = ({navigation}) => {
   }, []);
 
   const loadCustomer = async () => {
-    
+    setLoader(true);
+    axios
+      .get(
+        `${API_ROOT}/customername/all`,
+        getConfigForHeader(API_ID_FOR_CUSTOMER),
+      )
+      .then((res) => {
+        const data = pathOr([], ['data', 'results'], res);
+        setLoader(false);
+        console.log(
+          '🚀 ~ file: customerList.tsx ~ line 35 ~ .then ~ res',
+          data,
+        );
+        setValue(data);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log(err, 'err');
+      });
   };
 
-  const renderList = (item) => {
+  const removeCustomer = (id: any) => {
+    setLoader(true);
+    axios
+      .delete(
+        `${API_ROOT}/customername/${id}`,
+        getConfigForHeader(API_ID_FOR_CUSTOMER),
+      )
+      .then((res) => {
+        loadCustomer();
+        setLoader(false);
+      })
+      .catch((err) => {
+        setLoader(false);
+        console.log(err, 'err');
+      });
+  };
+
+
+
+  const renderList = (customer) => {
+    console.log(
+      '🚀 ~ file: customerList.tsx ~ line 47 ~ renderList ~ item',
+      customer,
+    );
+
     return (
-      <TouchableOpacity
-        onPress={() =>
-        navigation.navigate('customer', {
-            id: item.id,
-          })
-        }>
-        <View key={item.id}>
-          <Text>{item.name}</Text>
-        </View>
-      </TouchableOpacity>
+      <View>
+        <Spinner visible={loader} />
+
+        <Card style={styles.container}>
+          <Card.Content>
+            <Title>{customer.customer_name}</Title>
+            <Paragraph>{customer.customer_phone_number}</Paragraph>
+            <Paragraph>{customer.customer_imei_number}</Paragraph>
+          </Card.Content>
+
+          <Card.Actions>
+            <Button onPress={() =>navigation.navigate('customer', {id: customer.id})}>Edit</Button>
+            <Button onPress={() => removeCustomer(customer.id)}>Remove</Button>
+          </Card.Actions>
+        </Card>
+      </View>
     );
   };
 
-  
-    return (
-      <SafeAreaView>
-        <FlatList
-          data={value}
-          renderItem={({item}) => renderList(item)}
-          keyExtractor={(item) => item.id.toString()}
-          refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={loadCustomer} />
-          }
-          contentContainerStyle={styles.list}
-        />
-      </SafeAreaView>
-    );
-  
-  
+  return (
+    <SafeAreaView>
+      <FlatList
+        data={value}
+        renderItem={({item}) => renderList(item)}
+        keyExtractor={(item) => item.id.toString()}
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={loadCustomer} />
+        }
+      />
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  scrollView: {
-    flex: 1,
-    backgroundColor: '#eeeeee',
-  },
-  list: {
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    flex: 1,
-  },
-  enappdWrapper: {
-    position: 'absolute',
-    bottom: 0,
-  },
-  enappdIcon: {
-    width: 100,
-    height: 40,
-  },
-  item: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    marginTop: 15,
   },
-  thumbnail: {
-    width: 60,
-    height: 60,
-    borderWidth: 1,
-    borderColor: '#aaa',
+  itemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flexWrap: 'wrap',
   },
+
   itemText: {
-    paddingTop: 5,
-    paddingLeft: 10,
-    fontSize: 18,
+    maxWidth: '80%',
+  },
+  circular: {
+    width: 12,
+    height: 12,
+    borderColor: '#55BCF6',
+    borderWidth: 2,
+    borderRadius: 5,
   },
 });
 
