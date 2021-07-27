@@ -1,31 +1,34 @@
-export const validateContent = (text) => {
+export const validateContent = (text,err) => {
     if (!text) {
-      return "Can't be blank";
+      return err;
     }
   };
   
-  export const validateLength = (text) => {
+  export const validateLength = (text,err) => {
     if (text && text.length < 3) {
       return 'Must be 3 characters or more.';
     }
   };
 
-  export const validateMobile = (text) => {
+  export const validateMobile = (text,err) => {
     if (text && text.length != 10) {
       return 'Invalid Mobile No';
     }
   };
 
-  export const validateImei = (text) => {
+  export const validateImei = (text,err) => {
     if (text && text.length != 16) {
       return 'Invalid Imei No';
     }
   };
 
-  export const validateField = (validators, value) => {
-    let error = '';
+   
+  export const validateField = (field, value) => {
+     let error = '';
+    const validators = field.validators;
+    const errorText = field.errorText;
     validators.forEach((validator) => {
-      const validationError = validator(value);
+      const validationError = validator(value,errorText);
       if (validationError) {
         error = validationError;
       }
@@ -42,7 +45,7 @@ export const validateContent = (text) => {
       const validators = field.validators;
       const value = values[key];
       if (validators && validators.length > 0) {
-        const error = validateField(validators, value);
+        const error = validateField(field, value);
         if (error) {
           errors[key] = error;
         }

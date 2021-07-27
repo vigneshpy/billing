@@ -50,12 +50,11 @@ const CustomerScreen = ({navigation, route}) => {
 
   const customerSave = (values) => {
     setLoader(true);
-    const customer_name = pathOr('', ['customerName'], values);
-    const customer_phone_number = pathOr('', ['customerNo'], values);
-    const customer_imei_number = pathOr('', ['imei1'], values);
+    const customer_name = pathOr('', ['customer_name'], values);
+    const customer_phone_number = pathOr('', ['customer_phone_number'], values);
+    const customer_imei_number = pathOr('', ['customer_imei_number'], values);
 
     const data = {customer_name, customer_phone_number, customer_imei_number};
-
     if (itemid) {
       axios
         .put(
@@ -74,7 +73,8 @@ const CustomerScreen = ({navigation, route}) => {
           data,
           getConfigForHeader(API_ID_FOR_CUSTOMER),
         )
-        .then((res) => {})
+        .then((res) => {
+        })
         .catch((err) => {
           console.log(err, 'err');
         });
