@@ -7,10 +7,7 @@ import MobileModelScreen from "./MobileModelScreen";
 import ItemScreen from "./ItemScreen";
 import ServiceScreen from "./ServiceScreen";
 import ReportScreen from "./ReportScreen";
-
-
-
-import NavTabBottom from "../navigation/NavigationTab"
+import HomeScreen  from "./HomeScreen"
  const AppStack = createStackNavigator();
 const Screens = ({ navigation }) => {
   const headerOptions = {
@@ -29,12 +26,12 @@ const Screens = ({ navigation }) => {
       
       <AppStack.Screen
         name="home"
-        options={{ title: "home" }}
-        component={NavTabBottom}
+        options={{ title: "Home" }}
+        component={HomeScreen}
       />
       <AppStack.Screen
         name="mobile"
-        options={{ title: "mobile" }}
+        options={{ title: "Mobile" }}
         component={MobileScreen}
       />
       <AppStack.Screen

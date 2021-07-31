@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import StackNavWrapper from '../navigation/stackNavWrapper';
 import {
   View,
   Text,
@@ -9,7 +8,6 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import Loader from '../forms/loader';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
 import axios from 'axios';
@@ -53,7 +51,7 @@ const ListCustomer = ({navigation}) => {
       });
   };
 
-  const removeCustomer = (id: any) => {
+  const  removeCustomer = async (id: any) => {
     setLoader(true);
     axios
       .delete(
@@ -61,7 +59,7 @@ const ListCustomer = ({navigation}) => {
         getConfigForHeader(API_ID_FOR_CUSTOMER),
       )
       .then((res) => {
-        loadCustomer();
+      loadCustomer();
         setLoader(false);
       })
       .catch((err) => {

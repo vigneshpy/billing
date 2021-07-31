@@ -1,5 +1,3 @@
-import StackNavWrapper from '../navigation/stackNavWrapper';
-import AppStyles from '../config/styles';
 import {
   validateContent,
   validateImei,
@@ -28,6 +26,7 @@ const CustomerScreen = ({navigation, route}) => {
   }, [itemid]);
 
   const fetchSingleReord = async (id) => {
+    setLoader(true);
     axios
       .get(
         `${API_ROOT}/customername/${id}`,
