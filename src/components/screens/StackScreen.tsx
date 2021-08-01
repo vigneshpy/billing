@@ -8,6 +8,7 @@ import ItemScreen from "./ItemScreen";
 import ServiceScreen from "./ServiceScreen";
 import ReportScreen from "./ReportScreen";
 import HomeScreen  from "./HomeScreen"
+import  ListCustomer  from '../list/ListCustomer'
  const AppStack = createStackNavigator();
 const Screens = ({ navigation }) => {
   const headerOptions = {
@@ -49,10 +50,15 @@ const Screens = ({ navigation }) => {
         options={{ title: "service" }}
         component={ServiceScreen}
       />
-     <AppStack.Screen
-        name="customer"
-        options={{ title: "customer" }}
+      <AppStack.Screen
+        name="customerScreen"
+        options={{ title: "customerScreen" }}
         component={CustomerScreen}
+      />
+     <AppStack.Screen
+        name="customerlist"
+        options={{ title: "customerlist" }}
+        component={ListCustomer}
       />
        <AppStack.Screen
         name="report"

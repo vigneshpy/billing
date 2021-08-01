@@ -1,5 +1,4 @@
-import StackNavWrapper from '../navigation/stackNavWrapper';
-import AppStyles from '../config/styles';
+ import AppStyles from '../config/styles';
 import {
   validateContent,
   validateImei,
@@ -14,69 +13,64 @@ import {pathOr} from 'ramda';
 import axios from 'axios';
 import {API_ROOT} from '../../constants'
 import { getConfigForHeader } from '../../utilities/utilities';
-import { API_ID_FOR_CUSTOMER } from './constants';
+import { API_ID_FOR_MOBILE_NAME } from './constants';
 
 const MobileScreen = ({navigation, route}) => {
   const itemid = pathOr('', ['params', 'id'], route);
-
   const [spinner, setSpinner] = useState(false);
   const [loadedData, setLoadedData] = useState({});
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    if (itemid)
-      //  console.log(itemid);
-      fetchSingleReord(itemid);
+    if (itemid) console.log(itemid);
+    fetchSingleReord(itemid);
   }, [itemid]);
 
+
   const fetchSingleReord = async (id) => {
-   
+    axios
+    .get(
+      `${API_ROOT}/mobilename/${id}`,
+      getConfigForHeader(API_ID_FOR_MOBILE_NAME),
+    )
+    .then((res) => {
+      const data = pathOr([], ['data'], res);
+      console.log(
+        '🚀 ~ file: CustomerScreen.tsx ~ line 40 ~ .then ~ data',
+        data,
+      );
+      setLoadedData(data);
+      setLoader(false);
+    })
+    .catch((err) => {
+      setLoader(false);
+      console.log(err, 'err');
+    });
   };
 
   const customerSave = (values) => {
-    
+    console.log("values",values)
     setSpinner(true);
+    const mobile_name = pathOr('',['mobileName'],values);
+    const data = {mobile_name};
+    console.log(data)
 
-    const customer_name = pathOr('',['customerName'],values);
-    const customer_phone_number = pathOr('',['customerNo'],values);
-    const customer_imei_number =  pathOr('',['imei1'],values);
-
-    const data = {customer_name,customer_phone_number,customer_imei_number};
-
-     axios.post(`${API_ROOT}/customername`,data,getConfigForHeader(API_ID_FOR_CUSTOMER))
+     axios.post(`${API_ROOT}/mobilename`,data,getConfigForHeader(API_ID_FOR_MOBILE_NAME))
     .then((res)=>{
-     
+      console.log("mob")
   }).catch((err)=>{
     console.log(err,"err")
   })
-   
     setSpinner(false);
   };
 
   const fields = {
-    customerName: {
+    mobileName: {
       label: 'mobile Name',
       type: 'text',
       validators: [validateContent, validateLength],
-    },
-    customerNo: {
-      label: 'Mobile No',
-      type: 'text',
-      validators: [validateMobile],
-      inputProps: {
-        keyboardType: 'phone-pad',
-        maxLength: 10,
-        returnKeyType: 'next',
-      },
-    },
-    imei1: {
-      label: 'IMEI No',
-      type: 'text',
-      inputProps: {
-        keyboardType: 'phone-pad',
-        maxLength: 16,
-      },
-      validators: [validateImei],
-    },
+      errorText:'Mobile Name cannot be empty'
+    }
   };
   return (
     <View style={{flex: 1}}>
@@ -90,7 +84,7 @@ const MobileScreen = ({navigation, route}) => {
         buttonStyle={{width: 200}}
         action={customerSave}
         loadedData={loadedData}
-        afterSubmit={() => navigation.navigate('customerlist')}
+        afterSubmit={() => navigation.navigate('mobilelist')}
       />
     </View>
   );

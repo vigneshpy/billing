@@ -1,4 +1,7 @@
 import React, {useEffect, useState} from 'react';
+import { FloatingAction } from "react-native-floating-action";
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import {
   View,
   Text,
@@ -41,7 +44,7 @@ const ListCustomer = ({navigation}) => {
         setLoader(false);
         console.log(
           '🚀 ~ file: customerList.tsx ~ line 35 ~ .then ~ res',
-          data,
+          data.length,
         );
         setValue(data);
       })
@@ -68,14 +71,15 @@ const ListCustomer = ({navigation}) => {
       });
   };
 
+  const handleFloatingIcon = ()=>{
+     navigation.navigate('customerScreen')
+  }
+
 
 
   const renderList = (customer) => {
-    console.log(
-      '🚀 ~ file: customerList.tsx ~ line 47 ~ renderList ~ item',
-      customer,
-    );
-
+   
+   
     return (
       <View>
         <Spinner visible={loader} />
@@ -98,6 +102,7 @@ const ListCustomer = ({navigation}) => {
 
   return (
     <SafeAreaView>
+    <SafeAreaView>
       <FlatList
         data={value}
         renderItem={({item}) => renderList(item)}
@@ -106,7 +111,28 @@ const ListCustomer = ({navigation}) => {
           <RefreshControl refreshing={refreshing} onRefresh={loadCustomer} />
         }
       />
+     
     </SafeAreaView>
+    <TouchableOpacity
+      onPress={handleFloatingIcon}
+    style={{
+      borderWidth: 1,
+      borderColor: 'rgba(0,0,0,0.2)',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 70,
+      position: 'absolute',
+      bottom: 10,
+      right: 10,
+      height: 70,
+      backgroundColor: '#fff',
+      borderRadius: 100,
+    }}
+  >
+    
+    <Icon name='plus' size={30} color='#01a699' />
+  </TouchableOpacity>
+  </SafeAreaView>
   );
 };
 
