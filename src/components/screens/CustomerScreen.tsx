@@ -4,7 +4,7 @@ import {
   validateLength,
   validateMobile,
 } from '../forms/Validation';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import Spinner from '../forms/loader';
@@ -16,7 +16,6 @@ import {API_ID_FOR_CUSTOMER} from './constants';
 
 const CustomerScreen = ({navigation, route}) => {
   const itemid = pathOr('', ['params', 'id'], route);
-
   const [loader, setLoader] = useState(false);
   const [loadedData, setLoadedData] = useState({});
 
@@ -34,16 +33,11 @@ const CustomerScreen = ({navigation, route}) => {
       )
       .then((res) => {
         const data = pathOr([], ['data'], res);
-        console.log(
-          '🚀 ~ file: CustomerScreen.tsx ~ line 40 ~ .then ~ data',
-          data,
-        );
         setLoadedData(data);
         setLoader(false);
       })
       .catch((err) => {
         setLoader(false);
-        console.log(err, 'err');
       });
   };
 
@@ -52,7 +46,6 @@ const CustomerScreen = ({navigation, route}) => {
     const customer_name = pathOr('', ['customer_name'], values);
     const customer_phone_number = pathOr('', ['customer_phone_number'], values);
     const customer_imei_number = pathOr('', ['customer_imei_number'], values);
-
     const data = {customer_name, customer_phone_number, customer_imei_number};
     if (itemid) {
       axios

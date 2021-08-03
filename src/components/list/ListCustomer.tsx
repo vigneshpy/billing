@@ -1,18 +1,12 @@
 import React, {useEffect, useState} from 'react';
-import { FloatingAction } from "react-native-floating-action";
-import Icon from 'react-native-vector-icons/FontAwesome';
-
+import FlatIcon from '../Flaticon/FlatIcon';
 import {
   View,
-  Text,
   FlatList,
   RefreshControl,
-  StyleSheet,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
+  StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
+import { Button, Card, Title, Paragraph} from 'react-native-paper';
 import axios from 'axios';
 import {API_ROOT} from '../../constants';
 import {getConfigForHeader} from '../../utilities/utilities';
@@ -78,8 +72,6 @@ const ListCustomer = ({navigation}) => {
 
 
   const renderList = (customer) => {
-   
-   
     return (
       <View>
         <Spinner visible={loader} />
@@ -92,7 +84,7 @@ const ListCustomer = ({navigation}) => {
           </Card.Content>
 
           <Card.Actions>
-            <Button onPress={() =>navigation.navigate('customer', {id: customer.id})}>Edit</Button>
+            <Button onPress={() =>navigation.navigate('customerScreen', {id: customer.id})}>Edit</Button>
             <Button onPress={() => removeCustomer(customer.id)}>Remove</Button>
           </Card.Actions>
         </Card>
@@ -101,7 +93,6 @@ const ListCustomer = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView>
     <SafeAreaView>
       <FlatList
         data={value}
@@ -112,26 +103,7 @@ const ListCustomer = ({navigation}) => {
         }
       />
      
-    </SafeAreaView>
-    <TouchableOpacity
-      onPress={handleFloatingIcon}
-    style={{
-      borderWidth: 1,
-      borderColor: 'rgba(0,0,0,0.2)',
-      alignItems: 'center',
-      justifyContent: 'center',
-      width: 70,
-      position: 'absolute',
-      bottom: 10,
-      right: 10,
-      height: 70,
-      backgroundColor: '#fff',
-      borderRadius: 100,
-    }}
-  >
-    
-    <Icon name='plus' size={30} color='#01a699' />
-  </TouchableOpacity>
+  <FlatIcon handleAction={handleFloatingIcon}/>
   </SafeAreaView>
   );
 };

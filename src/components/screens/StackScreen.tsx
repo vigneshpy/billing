@@ -9,7 +9,8 @@ import ServiceScreen from "./ServiceScreen";
 import ReportScreen from "./ReportScreen";
 import HomeScreen  from "./HomeScreen"
 import  ListCustomer  from '../list/ListCustomer'
- const AppStack = createStackNavigator();
+import  ListMobile  from '../list/ListMobile'
+const AppStack = createStackNavigator();
 const Screens = ({ navigation }) => {
   const headerOptions = {
     header: ({ scene, navigation }:any) => {
@@ -31,9 +32,9 @@ const Screens = ({ navigation }) => {
         component={HomeScreen}
       />
       <AppStack.Screen
-        name="mobile"
-        options={{ title: "Mobile" }}
-        component={MobileScreen}
+        name="mobilelist"
+        options={{ title: "Mobilelist" }}
+        component={ListMobile}
       />
       <AppStack.Screen
         name="mobile_model"
@@ -59,6 +60,11 @@ const Screens = ({ navigation }) => {
         name="customerlist"
         options={{ title: "customerlist" }}
         component={ListCustomer}
+      />
+      <AppStack.Screen
+        name="mobile"
+        options={{ title: "mobile" }}
+        component={MobileScreen}
       />
        <AppStack.Screen
         name="report"

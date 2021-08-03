@@ -1,12 +1,11 @@
-import React, {useState} from 'react';
-import {Text, View, StyleSheet} from 'react-native';
+import React from 'react';
+import { View, StyleSheet} from 'react-native';
 import {HelperText, TextInput} from 'react-native-paper';
 import DatePicker from './DateField';
 import AutoComplete from './AutoCompleteField';
 const Field = (props) => {
   const {fieldName, field, value, onChangeText, error, color}=props;
   const fieldType = field.type;
-
   const renderField = (type: string) => {
     if (type == 'text' || type == '' || type == undefined) {
       return (

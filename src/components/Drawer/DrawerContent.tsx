@@ -33,7 +33,7 @@ const DrawerContent = (props: any) => {
           <CustomDrawerItem
             ItemLabel="Mobile"
             ItemStyle={styles.label}
-            ItemEvent={() => CustomNavigation("mobile")}
+            ItemEvent={() => CustomNavigation("mobilelist")}
              labelStyle={styles.labelStyle} 
              ItemIcon={() => <Icon name="home" color={AppStyle.COLOR_PRIMARY} size={20} />}
           />

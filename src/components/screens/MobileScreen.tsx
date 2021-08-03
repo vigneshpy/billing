@@ -1,11 +1,8 @@
- import AppStyles from '../config/styles';
 import {
   validateContent,
-  validateImei,
   validateLength,
-  validateMobile,
 } from '../forms/Validation';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import Spinner from '../forms/loader';
@@ -17,7 +14,6 @@ import { API_ID_FOR_MOBILE_NAME } from './constants';
 
 const MobileScreen = ({navigation, route}) => {
   const itemid = pathOr('', ['params', 'id'], route);
-  const [spinner, setSpinner] = useState(false);
   const [loadedData, setLoadedData] = useState({});
   const [loader, setLoader] = useState(false);
 
@@ -26,8 +22,8 @@ const MobileScreen = ({navigation, route}) => {
     fetchSingleReord(itemid);
   }, [itemid]);
 
-
   const fetchSingleReord = async (id) => {
+    setLoader(true)
     axios
     .get(
       `${API_ROOT}/mobilename/${id}`,
@@ -35,10 +31,6 @@ const MobileScreen = ({navigation, route}) => {
     )
     .then((res) => {
       const data = pathOr([], ['data'], res);
-      console.log(
-        '🚀 ~ file: CustomerScreen.tsx ~ line 40 ~ .then ~ data',
-        data,
-      );
       setLoadedData(data);
       setLoader(false);
     })
@@ -48,24 +40,39 @@ const MobileScreen = ({navigation, route}) => {
     });
   };
 
-  const customerSave = (values) => {
-    console.log("values",values)
-    setSpinner(true);
-    const mobile_name = pathOr('',['mobileName'],values);
+  const mobileSave = (values) => {
+    setLoader(true);
+    const mobile_name = pathOr('', ['mobile_name'], values);
     const data = {mobile_name};
-    console.log(data)
-
-     axios.post(`${API_ROOT}/mobilename`,data,getConfigForHeader(API_ID_FOR_MOBILE_NAME))
-    .then((res)=>{
-      console.log("mob")
-  }).catch((err)=>{
-    console.log(err,"err")
-  })
-    setSpinner(false);
+    if (itemid) {
+      axios
+        .put(
+          `${API_ROOT}/mobilename/${itemid}`,
+          data,
+          getConfigForHeader(API_ID_FOR_MOBILE_NAME),
+        )
+        .then((res) => {})
+        .catch((err) => {
+          console.log(err, 'err');
+        });
+    } else {
+      axios
+        .post(
+          `${API_ROOT}/mobilename`,
+          data,
+          getConfigForHeader(API_ID_FOR_MOBILE_NAME),
+        )
+        .then((res) => {
+        })
+        .catch((err) => {
+          console.log(err, 'err');
+        });
+    }
+    setLoader(false);
   };
 
   const fields = {
-    mobileName: {
+    mobile_name: {
       label: 'mobile Name',
       type: 'text',
       validators: [validateContent, validateLength],
@@ -74,7 +81,7 @@ const MobileScreen = ({navigation, route}) => {
   };
   return (
     <View style={{flex: 1}}>
-      <Spinner visible={spinner} />
+      <Spinner visible={loader} />
       <View style={styles.header}>
         <Text style={styles.headerText}>Mobile</Text>
       </View>
@@ -82,7 +89,7 @@ const MobileScreen = ({navigation, route}) => {
         fields={fields}
         buttonText="Save"
         buttonStyle={{width: 200}}
-        action={customerSave}
+        action={mobileSave}
         loadedData={loadedData}
         afterSubmit={() => navigation.navigate('mobilelist')}
       />

@@ -1,41 +1,48 @@
 import React, {useEffect, useState} from 'react';
  import {
   View,
-  Text,
   FlatList,
   RefreshControl,
   StyleSheet,
-  TouchableOpacity,
-  Image,
 } from 'react-native';
-import Loader from '../forms/loader';
+import FlatIcon from '../Flaticon/FlatIcon';
+
 import {SafeAreaView} from 'react-native-safe-area-context';
-import {Avatar, Button, Card, Title, Paragraph} from 'react-native-paper';
+import { Button, Card, Title} from 'react-native-paper';
+import { Text} from 'react-native';
+
 import axios from 'axios';
 import {API_ROOT} from '../../constants';
 import {getConfigForHeader} from '../../utilities/utilities';
-import {API_ID_FOR_CUSTOMER} from '../Screens/constants';
-import {pathOr} from 'ramda';
+import {API_ID_FOR_MOBILE_NAME} from '../Screens/constants';
+import {pathOr,isEmpty} from 'ramda';
 import Spinner from 'react-native-loading-spinner-overlay';
-const ListCustomer = ({navigation}) => {
+const ListMobile = ({navigation}) => {
+  
   const [loader, setLoader] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [value, setValue] = useState([]);
+
   useEffect(() => {
-    loadCustomer();
+    loadMobile();
     const subscribe = navigation.addListener('focus', () => {
-      loadCustomer();
+      loadMobile();
     });
 
     return subscribe;
   }, []);
 
-  const loadCustomer = async () => {
+  const handleFloatingIcon = ()=>{
+    console.log("mobile")
+     navigation.navigate('mobile')
+  }
+
+  const loadMobile = async () => {
     setLoader(true);
-    axios
+    axios 
       .get(
-        `${API_ROOT}/customername/all`,
-        getConfigForHeader(API_ID_FOR_CUSTOMER),
+        `${API_ROOT}/mobilename/all`,
+        getConfigForHeader(API_ID_FOR_MOBILE_NAME),
       )
       .then((res) => {
         const data = pathOr([], ['data', 'results'], res);
@@ -52,15 +59,15 @@ const ListCustomer = ({navigation}) => {
       });
   };
 
-  const removeCustomer = (id: any) => {
+  const removeMobile = async (id: any) => {
     setLoader(true);
     axios
       .delete(
-        `${API_ROOT}/customername/${id}`,
-        getConfigForHeader(API_ID_FOR_CUSTOMER),
+        `${API_ROOT}/mobilename/${id}`,
+        getConfigForHeader(API_ID_FOR_MOBILE_NAME),
       )
       .then((res) => {
-        loadCustomer();
+        loadMobile();
         setLoader(false);
       })
       .catch((err) => {
@@ -71,26 +78,26 @@ const ListCustomer = ({navigation}) => {
 
 
 
-  const renderList = (customer) => {
+  const renderList = (mobile) => {
     console.log(
-      '🚀 ~ file: customerList.tsx ~ line 47 ~ renderList ~ item',
-      customer,
+      '🚀 ~ file: mobileList.tsx ~ line 47 ~ renderList ~ item',
+      mobile,
     );
-
+console.log("value",value)
     return (
+      
       <View>
+       
         <Spinner visible={loader} />
 
         <Card style={styles.container}>
           <Card.Content>
-            <Title>{customer.customer_name}</Title>
-            <Paragraph>{customer.customer_phone_number}</Paragraph>
-            <Paragraph>{customer.customer_imei_number}</Paragraph>
-          </Card.Content>
+            <Title>{mobile.mobile_name}</Title>
+            </Card.Content>
 
           <Card.Actions>
-            <Button onPress={() =>navigation.navigate('customer', {id: customer.id})}>Edit</Button>
-            <Button onPress={() => removeCustomer(customer.id)}>Remove</Button>
+            <Button onPress={() =>navigation.navigate('mobile', {id: mobile.id})}>Edit</Button>
+            <Button onPress={() => removeMobile(mobile.id)}>Remove</Button>
           </Card.Actions>
         </Card>
       </View>
@@ -98,15 +105,18 @@ const ListCustomer = ({navigation}) => {
   };
 
   return (
+    
     <SafeAreaView>
-      <FlatList
+       <FlatList
         data={value}
         renderItem={({item}) => renderList(item)}
         keyExtractor={(item) => item.id.toString()}
         refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={loadCustomer} />
+          <RefreshControl refreshing={refreshing} onRefresh={loadMobile} />
         }
       />
+        <FlatIcon handleAction={handleFloatingIcon}/>
+
     </SafeAreaView>
   );
 };
@@ -134,4 +144,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ListCustomer;
+export default ListMobile;
