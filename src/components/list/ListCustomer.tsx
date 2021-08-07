@@ -6,7 +6,7 @@ import {Button, Card, Title, Paragraph} from 'react-native-paper';
 import axios from 'axios';
 import {API_ROOT} from '../../constants';
 import {getConfigForHeader} from '../../utilities/utilities';
-import {API_ID_FOR_CUSTOMER} from '../Screens/constants';
+import {API_ID_FOR_CUSTOMER} from '../screens/constants';
 import {pathOr} from 'ramda';
 import Spinner from 'react-native-loading-spinner-overlay';
 const ListCustomer = ({navigation}) => {
@@ -32,10 +32,7 @@ const ListCustomer = ({navigation}) => {
       .then((res) => {
         const data = pathOr([], ['data', 'results'], res);
         setLoader(false);
-        console.log(
-          '🚀 ~ file: customerList.tsx ~ line 35 ~ .then ~ res',
-          data.length,
-        );
+  
         setValue(data);
       })
       .catch((err) => {

@@ -33,7 +33,7 @@ const Screens = ({ navigation }) => {
       />
       <AppStack.Screen
         name="mobilelist"
-        options={{ title: "Mobilelist" }}
+        options={{ title: "Mobile List" }}
         component={ListMobile}
       />
       <AppStack.Screen
@@ -58,17 +58,17 @@ const Screens = ({ navigation }) => {
       />
      <AppStack.Screen
         name="customerlist"
-        options={{ title: "customerlist" }}
+        options={{ title: "Customer List" }}
         component={ListCustomer}
       />
       <AppStack.Screen
         name="mobile"
-        options={{ title: "mobile" }}
+        options={{ title: "Mobile" }}
         component={MobileScreen}
       />
        <AppStack.Screen
         name="report"
-        options={{ title: "report" }}
+        options={{ title: "Report" }}
         component={ReportScreen}
       />
 

@@ -29,13 +29,13 @@ const DrawerContent = (props: any) => {
             ItemEvent={() => CustomNavigation("home")}
              labelStyle={styles.labelStyle}
              ItemIcon={() => <Icon name="home" color={AppStyle.COLOR_PRIMARY} size={20} />}
-          />
+          /> 
           <CustomDrawerItem
             ItemLabel="Mobile"
             ItemStyle={styles.label}
             ItemEvent={() => CustomNavigation("mobilelist")}
              labelStyle={styles.labelStyle} 
-             ItemIcon={() => <Icon name="home" color={AppStyle.COLOR_PRIMARY} size={20} />}
+             ItemIcon={() => <Icon name="mobile" color={AppStyle.COLOR_PRIMARY} size={20} />}
           />
           <CustomDrawerItem
             ItemLabel="Mobile Model"
@@ -56,21 +56,21 @@ const DrawerContent = (props: any) => {
             ItemStyle={styles.label}
             ItemEvent={() => CustomNavigation("service")}
              labelStyle={styles.labelStyle}
-             ItemIcon={() => <Icon name="home" color={AppStyle.COLOR_PRIMARY} size={20} />}
+             ItemIcon={() => <Icon name="wrench" color={AppStyle.COLOR_PRIMARY} size={20} />}
           />
            <CustomDrawerItem
-            ItemLabel="customerlist"
+            ItemLabel="Customer"
             ItemStyle={styles.label}
             ItemEvent={() => CustomNavigation("customerlist")}
              labelStyle={styles.labelStyle}
-             ItemIcon={() => <Icon name="home" color={AppStyle.COLOR_PRIMARY} size={20} />}
+             ItemIcon={() => <Icon name="user" color={AppStyle.COLOR_PRIMARY} size={20} />}
           />
           <CustomDrawerItem
             ItemLabel="Report"
             ItemStyle={styles.label}
             ItemEvent={() => CustomNavigation("report")}
              labelStyle={styles.labelStyle}
-             ItemIcon={() => <Icon name="home" color={AppStyle.COLOR_PRIMARY} size={20} />}
+             ItemIcon={() => <Icon name="file-pdf-o" color={AppStyle.COLOR_PRIMARY} size={20} />}
           />
         </Drawer.Section>
       </DrawerContentScrollView>

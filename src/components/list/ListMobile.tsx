@@ -14,7 +14,7 @@ import { Text} from 'react-native';
 import axios from 'axios';
 import {API_ROOT} from '../../constants';
 import {getConfigForHeader} from '../../utilities/utilities';
-import {API_ID_FOR_MOBILE_NAME} from '../Screens/constants';
+import {API_ID_FOR_MOBILE_NAME} from '../screens/constants';
 import {pathOr,isEmpty} from 'ramda';
 import Spinner from 'react-native-loading-spinner-overlay';
 const ListMobile = ({navigation}) => {
@@ -47,10 +47,6 @@ const ListMobile = ({navigation}) => {
       .then((res) => {
         const data = pathOr([], ['data', 'results'], res);
         setLoader(false);
-        console.log(
-          '🚀 ~ file: customerList.tsx ~ line 35 ~ .then ~ res',
-          data,
-        );
         setValue(data);
       })
       .catch((err) => {
@@ -107,7 +103,8 @@ console.log("value",value)
   return (
     
     <View style={{flex: 1}}>
-       <FlatList
+      <Spinner visible={loader} />
+             <FlatList
         data={value}
         renderItem={({item}) => renderList(item)}
         keyExtractor={(item) => item.id.toString()}

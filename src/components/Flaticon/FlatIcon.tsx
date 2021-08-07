@@ -2,7 +2,8 @@
 import * as React from 'react';
 import { StyleSheet } from 'react-native';
 import { FAB } from 'react-native-paper';
-
+import style from '../config/styles';
+const AppStyle = style.color;
   interface Props {
     handleAction:any;
   }
@@ -26,7 +27,7 @@ import { FAB } from 'react-native-paper';
       margin: 20,
       right: 0,
       bottom:50,
-      backgroundColor: "#6200EE",
+      backgroundColor: AppStyle.COLOR_PRIMARY,
       
     },
   })
