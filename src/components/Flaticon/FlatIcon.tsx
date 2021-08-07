@@ -1,8 +1,7 @@
-import {
-    TouchableOpacity,
-  } from 'react-native';
-  import Icon from 'react-native-vector-icons/FontAwesome';
-  import React from 'react';
+
+import * as React from 'react';
+import { StyleSheet } from 'react-native';
+import { FAB } from 'react-native-paper';
 
   interface Props {
     handleAction:any;
@@ -11,24 +10,24 @@ import {
   const FlatIcon : React.FC<CombinedProps> = (props: any) => {
     const {handleAction}=props;
       return(
-        <TouchableOpacity
-          onPress={handleAction}
-        style={{
-          borderWidth: 1,
-          borderColor: 'rgba(0,0,0,0.2)',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: 70,
-          position: 'absolute',
-          bottom: 10,
-          right: 10,
-          height: 70,
-          backgroundColor: '#fff',
-          borderRadius: 100,
-        }}
-      >
-        <Icon name='plus' size={30} color='#01a699' />
-      </TouchableOpacity>
-      )
+        <FAB
+        style={styles.fab}
+        small
+        icon="plus"
+        onPress={() =>handleAction()}
+      />
+    );
+      
   }
+
+  const styles = StyleSheet.create({
+    fab: {
+      position: "absolute",
+      margin: 20,
+      right: 0,
+      bottom:50,
+      backgroundColor: "#6200EE",
+      
+    },
+  })
   export default FlatIcon;

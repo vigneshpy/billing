@@ -106,7 +106,7 @@ console.log("value",value)
 
   return (
     
-    <SafeAreaView>
+    <View style={{flex: 1}}>
        <FlatList
         data={value}
         renderItem={({item}) => renderList(item)}
@@ -117,7 +117,7 @@ console.log("value",value)
       />
         <FlatIcon handleAction={handleFloatingIcon}/>
 
-    </SafeAreaView>
+        </View>
   );
 };
 

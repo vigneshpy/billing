@@ -1,12 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import FlatIcon from '../Flaticon/FlatIcon';
-import {
-  View,
-  FlatList,
-  RefreshControl,
-  StyleSheet} from 'react-native';
+import {View, FlatList, RefreshControl, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { Button, Card, Title, Paragraph} from 'react-native-paper';
+import {Button, Card, Title, Paragraph} from 'react-native-paper';
 import axios from 'axios';
 import {API_ROOT} from '../../constants';
 import {getConfigForHeader} from '../../utilities/utilities';
@@ -48,7 +44,7 @@ const ListCustomer = ({navigation}) => {
       });
   };
 
-  const  removeCustomer = async (id: any) => {
+  const removeCustomer = async (id: any) => {
     setLoader(true);
     axios
       .delete(
@@ -56,7 +52,7 @@ const ListCustomer = ({navigation}) => {
         getConfigForHeader(API_ID_FOR_CUSTOMER),
       )
       .then((res) => {
-      loadCustomer();
+        loadCustomer();
         setLoader(false);
       })
       .catch((err) => {
@@ -65,11 +61,9 @@ const ListCustomer = ({navigation}) => {
       });
   };
 
-  const handleFloatingIcon = ()=>{
-     navigation.navigate('customerScreen')
-  }
-
-
+  const handleFloatingIcon = () => {
+    navigation.navigate('customerScreen');
+  };
 
   const renderList = (customer) => {
     return (
@@ -84,7 +78,12 @@ const ListCustomer = ({navigation}) => {
           </Card.Content>
 
           <Card.Actions>
-            <Button onPress={() =>navigation.navigate('customerScreen', {id: customer.id})}>Edit</Button>
+            <Button
+              onPress={() =>
+                navigation.navigate('customerScreen', {id: customer.id})
+              }>
+              Edit
+            </Button>
             <Button onPress={() => removeCustomer(customer.id)}>Remove</Button>
           </Card.Actions>
         </Card>
@@ -93,7 +92,7 @@ const ListCustomer = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView>
+    <View style={{flex: 1}}>
       <FlatList
         data={value}
         renderItem={({item}) => renderList(item)}
@@ -102,9 +101,8 @@ const ListCustomer = ({navigation}) => {
           <RefreshControl refreshing={refreshing} onRefresh={loadCustomer} />
         }
       />
-     
-  <FlatIcon handleAction={handleFloatingIcon}/>
-  </SafeAreaView>
+      <FlatIcon handleAction={handleFloatingIcon} />
+    </View>
   );
 };
 
@@ -112,23 +110,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     marginTop: 15,
-  },
-  itemLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flexWrap: 'wrap',
-  },
+  }
 
-  itemText: {
-    maxWidth: '80%',
-  },
-  circular: {
-    width: 12,
-    height: 12,
-    borderColor: '#55BCF6',
-    borderWidth: 2,
-    borderRadius: 5,
-  },
 });
 
 export default ListCustomer;

@@ -1,4 +1,4 @@
-import StackNavWrapper from '../navigation/stackNavWrapper';
+
 import AppStyles from '../config/styles';
 import {
   validateContent,

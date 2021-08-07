@@ -12,6 +12,6 @@ const CustomDrawerItem = (props: any) => {
       activeTintColor="black"
     />
   );
-};
+}; 
 
 export default CustomDrawerItem;
