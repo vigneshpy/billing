@@ -77,7 +77,8 @@ const MobileScreen = ({navigation, route}) => {
       type: 'text',
       validators: [validateContent, validateLength],
       errorText:'Mobile Name cannot be empty'
-    }
+    },
+
   };
   return (
     <View style={{flex: 1}}>

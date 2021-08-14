@@ -10,7 +10,11 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import Spinner from '../forms/loader';
-import {pathOr} from 'ramda';
+import {pathOr,append} from 'ramda';
+import axios from 'axios';
+import { API_ROOT } from '../../constants';
+import { getConfigForHeader } from '../../utilities/utilities';
+import { API_ID_FOR_CUSTOMER } from './constants';
 
 const ServiceScreen = ({ navigation, route }) => {
   const [data, setData] = useState([]);
@@ -26,7 +30,27 @@ const ServiceScreen = ({ navigation, route }) => {
 
   const loadCustomer = async () => {
     setSpinner(true);
-  
+    axios
+    .get(
+      `${API_ROOT}/customername/all`,
+      getConfigForHeader(API_ID_FOR_CUSTOMER),
+    )
+    .then((res) => {
+      const data = pathOr([], ['data','results'], res);
+      const customerData=[];
+      data.map((x:any,index:number)=>{  
+         const customerId=pathOr('', ['id'], x);
+         const customerName=pathOr('', ['customer_name'], x);
+          const customerDrop={id:customerId,name:customerName}
+          customerData[index]=customerDrop
+      })  
+      setData(customerData)
+      setLoadedData(data);
+    })
+    .catch((err) => {
+      setSpinner(true);
+
+    });
     setSpinner(false);
   
   };

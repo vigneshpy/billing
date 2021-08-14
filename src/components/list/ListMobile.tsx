@@ -75,11 +75,6 @@ const ListMobile = ({navigation}) => {
 
 
   const renderList = (mobile) => {
-    console.log(
-      '🚀 ~ file: mobileList.tsx ~ line 47 ~ renderList ~ item',
-      mobile,
-    );
-console.log("value",value)
     return (
       
       <View>
