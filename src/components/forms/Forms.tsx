@@ -47,7 +47,6 @@ const Form = (props) => {
 
   useEffect(() => {
     if (!isEmpty(loadedData) && typeof loadedData != 'undefined') {
-      console.log(loadedData);
       loadFormData();
     }
   }, [loadedData]);
@@ -72,7 +71,6 @@ const Form = (props) => {
 
   const onChangeValue = (key, value) => {
     const newState = {...values, [key]: value};
-    console.log(newState);
     setValues(newState);
 
     if (validationErrors[key]) {

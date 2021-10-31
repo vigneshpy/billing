@@ -30,27 +30,25 @@ import MultiSelect from 'react-native-multiple-select';
 const MultiSelectExample = (props) => {
   const {label, onChangeText, data} = props;
   const list=data['data'];
-  const [items,setItems]=useState();
+  const [items,setItems]=useState([]);
 
   const [value, setValue] = useState([]);
 
   const onChange = (text, e) => {
+
     setValue(text);
     onChangeText(text.toString());
   };
   const onClear = (text, e) => {
-    setValue('');
+    setValue([]);
     onChangeText('');
   };
 
   useEffect(()=>{
-    loadList();
+    setItems(list);
   },[list])
 
 
-  const loadList=()=>{
-    setItems(list);
-  }
 
   const onfocus = () => {};
   const defaultProps = {onFocus: onfocus};

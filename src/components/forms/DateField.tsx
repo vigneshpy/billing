@@ -5,7 +5,7 @@ import {TextInput} from 'react-native-paper';
 import {formatDate} from '../config/Format';
 const today = new Date();
 const DatePicker = (props) => {
-  const {label,style,theme,inputProps,onDateChange} =props;
+  const {label,style,theme,inputProps,onDateChange,format} =props;
   const [date, setDate] = useState(new Date(today));
   const [show, setShow] = useState(false);
 
@@ -13,16 +13,17 @@ const DatePicker = (props) => {
     setShow(false);
     const currentDate = selectedDate || date;
     console.warn(currentDate);
-    onDateChange(formatDate(date, 'DD-MM-YYYY'));
+    onDateChange(formatDate(date,format));
     setDate(currentDate);
   };
+  // 'MMM-DD-yyyy'
   return (
     <View>
       <Pressable onPress={() => setShow(true)}>
         <View pointerEvents="none">
           <TextInput
             label={label}
-            value={formatDate(date, 'MMM-DD-yyyy')}
+            value={formatDate(date, format)}
             style={style}
             mode="outlined"
             theme={theme}

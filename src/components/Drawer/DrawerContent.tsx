@@ -54,7 +54,7 @@ const DrawerContent = (props: any) => {
           <CustomDrawerItem
             ItemLabel="Service"
             ItemStyle={styles.label}
-            ItemEvent={() => CustomNavigation("service")}
+            ItemEvent={() => CustomNavigation("servicelist")}
              labelStyle={styles.labelStyle}
              ItemIcon={() => <Icon name="wrench" color={AppStyle.COLOR_PRIMARY} size={20} />}
           />

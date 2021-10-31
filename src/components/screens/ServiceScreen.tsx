@@ -10,11 +10,11 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, View, Text} from 'react-native';
 import Forms from '../forms/Forms';
 import Spinner from '../forms/loader';
-import {pathOr,append} from 'ramda';
+import {pathOr} from 'ramda';
 import axios from 'axios';
 import { API_ROOT } from '../../constants';
 import { getConfigForHeader } from '../../utilities/utilities';
-import { API_ID_FOR_CUSTOMER } from './constants';
+import { API_ID_FOR_CUSTOMER, API_ID_FOR_SERVICE } from './constants';
 
 const ServiceScreen = ({ navigation, route }) => {
   const [data, setData] = useState([]);
@@ -29,13 +29,13 @@ const ServiceScreen = ({ navigation, route }) => {
   }, [itemid]);
 
   const loadCustomer = async () => {
-    setSpinner(true);
     axios
     .get(
       `${API_ROOT}/customername/all`,
       getConfigForHeader(API_ID_FOR_CUSTOMER),
     )
     .then((res) => {
+    setSpinner(true);
       const data = pathOr([], ['data','results'], res);
       const customerData=[];
       data.map((x:any,index:number)=>{  
@@ -46,9 +46,11 @@ const ServiceScreen = ({ navigation, route }) => {
       })  
       setData(customerData)
       setLoadedData(data);
+    setSpinner(false);
+
     })
     .catch((err) => {
-      setSpinner(true);
+      setSpinner(false);
 
     });
     setSpinner(false);
@@ -61,7 +63,38 @@ const ServiceScreen = ({ navigation, route }) => {
   };
 
   const serviceSave = async (values) => {
-   
+    setSpinner(true);
+    const customer_id = pathOr('', ['customerName'], values);
+    const service_name = pathOr('', ['service_name'], values);
+    const service_date = pathOr('', ['service_date'], values);
+    const service_charge = pathOr('', ['service_charge'], values);
+    const data = {service_name:service_name,service_charge:service_charge,service_date:service_date,customer_id:customer_id}
+ 
+    if (itemid) {
+      axios
+        .put(
+          `${API_ROOT}/services/${itemid}`,
+          data,
+          getConfigForHeader(API_ID_FOR_SERVICE),
+        )
+        .then((res) => {})
+        .catch((err) => {
+          console.log(err, 'err');
+        });
+    } else {
+      axios
+        .post(
+          `${API_ROOT}/services`,
+          data,
+          getConfigForHeader(API_ID_FOR_SERVICE),
+        )
+        .then((res) => {
+        })
+        .catch((err) => {
+          console.log(err, 'err');
+        });
+    }
+    setSpinner(false);
   };
   
     const fields = {
@@ -74,18 +107,18 @@ const ServiceScreen = ({ navigation, route }) => {
           returnKeyType: 'next',
         },
       },
-      serviceName: {
+      service_name: {
         label: 'Service Name',
         type: 'text',
         validators: [validateContent, validateLength],
       },
 
-      serviceDate: {
+      service_date: {
         type: 'date',
         label: 'Serviced Date',
         validators: [validateContent],
       },
-      serviceCharge: {
+      service_charge: {
         label: 'Serviced Charge',
         inputProps: {
           keyboardType: 'phone-pad',

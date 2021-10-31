@@ -9,6 +9,7 @@ import ServiceScreen from "./ServiceScreen";
 import ReportScreen from "./ReportScreen";
 import HomeScreen  from "./HomeScreen"
 import  ListCustomer  from '../list/ListCustomer'
+import  ListService  from '../list/serviceList'
 import  ListMobile  from '../list/ListMobile'
 const AppStack = createStackNavigator();
 const Screens = ({ navigation }) => {
@@ -60,6 +61,11 @@ const Screens = ({ navigation }) => {
         name="customerlist"
         options={{ title: "Customer List" }}
         component={ListCustomer}
+      />
+        <AppStack.Screen
+        name="servicelist"
+        options={{ title: "Service List" }}
+        component={ListService}
       />
       <AppStack.Screen
         name="mobile"

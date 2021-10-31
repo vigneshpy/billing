@@ -1,24 +1,18 @@
 import React, {useEffect, useState} from 'react';
- import {
-  View,
-  FlatList,
-  RefreshControl,
-  StyleSheet,
-} from 'react-native';
+import {View, FlatList, RefreshControl, StyleSheet} from 'react-native';
 import FlatIcon from '../Flaticon/FlatIcon';
 
 import {SafeAreaView} from 'react-native-safe-area-context';
-import { Button, Card, Title} from 'react-native-paper';
-import { Text} from 'react-native';
+import {Button, Card, Title} from 'react-native-paper';
+import {Text} from 'react-native';
 
 import axios from 'axios';
 import {API_ROOT} from '../../constants';
 import {getConfigForHeader} from '../../utilities/utilities';
 import {API_ID_FOR_MOBILE_NAME} from '../screens/constants';
-import {pathOr,isEmpty} from 'ramda';
+import {pathOr, isEmpty} from 'ramda';
 import Spinner from 'react-native-loading-spinner-overlay';
 const ListMobile = ({navigation}) => {
-  
   const [loader, setLoader] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [value, setValue] = useState([]);
@@ -32,14 +26,14 @@ const ListMobile = ({navigation}) => {
     return subscribe;
   }, []);
 
-  const handleFloatingIcon = ()=>{
-    console.log("mobile")
-     navigation.navigate('mobile')
-  }
+  const handleFloatingIcon = () => {
+    console.log('mobile');
+    navigation.navigate('mobile');
+  };
 
   const loadMobile = async () => {
     setLoader(true);
-    axios 
+    axios
       .get(
         `${API_ROOT}/mobilename/all`,
         getConfigForHeader(API_ID_FOR_MOBILE_NAME),
@@ -72,22 +66,21 @@ const ListMobile = ({navigation}) => {
       });
   };
 
-
-
   const renderList = (mobile) => {
     return (
-      
       <View>
-       
         <Spinner visible={loader} />
 
         <Card style={styles.container}>
           <Card.Content>
             <Title>{mobile.mobile_name}</Title>
-            </Card.Content>
+          </Card.Content>
 
           <Card.Actions>
-            <Button onPress={() =>navigation.navigate('mobile', {id: mobile.id})}>Edit</Button>
+            <Button
+              onPress={() => navigation.navigate('mobile', {id: mobile.id})}>
+              Edit
+            </Button>
             <Button onPress={() => removeMobile(mobile.id)}>Remove</Button>
           </Card.Actions>
         </Card>
@@ -96,10 +89,9 @@ const ListMobile = ({navigation}) => {
   };
 
   return (
-    
     <View style={{flex: 1}}>
       <Spinner visible={loader} />
-             <FlatList
+      <FlatList
         data={value}
         renderItem={({item}) => renderList(item)}
         keyExtractor={(item) => item.id.toString()}
@@ -107,9 +99,8 @@ const ListMobile = ({navigation}) => {
           <RefreshControl refreshing={refreshing} onRefresh={loadMobile} />
         }
       />
-        <FlatIcon handleAction={handleFloatingIcon}/>
-
-        </View>
+      <FlatIcon handleAction={handleFloatingIcon} />
+    </View>
   );
 };
 
